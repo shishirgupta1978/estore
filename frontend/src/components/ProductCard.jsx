@@ -1,9 +1,11 @@
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import { Card, Button,Modal,ButtonGroup } from 'react-bootstrap';
+import { MyContext } from '../utility';
+
 
 export const ProductCard = ({ product }) => {
   const [showPreview, setShowPreview] = useState(false);
-  const [cart,setCart]=useState({})
+  const {cart,setCart}=useContext(MyContext)
 
   const handleClosePreview = () => setShowPreview(false);
   const handleShowPreview = () => setShowPreview(true);
@@ -13,11 +15,13 @@ export const ProductCard = ({ product }) => {
     if (cart.hasOwnProperty(id)){
       if (cart[id] >1)
       {
+        localStorage.setItem("Cart", JSON.stringify({...cart, [id]:cart[id]-1}));
         setCart({...cart, [id]:cart[id]-1});
-        
+      
       }else if (cart[id]<=1)
       {
         delete key[id]; 
+        localStorage.setItem("Cart", JSON.stringify({...key}));
         setCart({...key});
 
       }
@@ -37,11 +41,13 @@ export const ProductCard = ({ product }) => {
         
       }else
       {
+        localStorage.setItem("Cart", JSON.stringify({...cart, [id]:cart[id]+1}));
         setCart({...cart, [id]:cart[id]+1});
       }
 
 
     }else{
+      localStorage.setItem("Cart", JSON.stringify({...cart, [id]:1}));
       setCart({...cart, [id]:1});
     }
 

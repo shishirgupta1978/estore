@@ -90,11 +90,12 @@ export const MyProvider = (props) => {
   const [category,setCategory]=useState({id:0, name:'All'})
   const [website,setWebsite]=useState(null)
   const [page,setPage]=useState("Login");
+  const [cart,setCart]=useState(localStorage.getItem("Cart") ? JSON.parse(localStorage.getItem("Cart")) :{});
   
   const [context, setContext] = useState({ 'user': getUser()});
 
   return (
-    <MyContext.Provider value={{ context, setContext,search,setSearch,category,setCategory,products,setProducts,banners,setBanners,website,setWebsite,page,setPage }}>
+    <MyContext.Provider value={{ context, setContext,search,setSearch,category,setCategory,products,setProducts,banners,setBanners,website,setWebsite,page,setPage,cart,setCart }}>
       {props.children}
     </MyContext.Provider>
   );

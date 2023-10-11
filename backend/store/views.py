@@ -61,7 +61,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         """
         Instantiates and returns the list of permissions that this view requires.
         """
-        if self.action == 'public_list':
+        if self.action == 'public_list' or self.action=='category_list_by_store_name':
             permission_classes = []
         else:
             permission_classes = [IsAuthenticated]
@@ -69,7 +69,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
     def get_queryset(self):
-        if self.action == 'public_list':
+        if self.action == 'public_list' or self.action == 'category_list_by_store_name':
             return Category.objects.all()
         else:
             store_id = self.kwargs.get('store_id')
@@ -89,6 +89,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
         serializers=CategorySerializer(categories,many=True)
         return Response(serializers.data)
 
+    @action(detail=False)
+    def category_list_by_store_name(self, request,website_name=None):
+        store = get_object_or_404(StoreProfile, website_name=website_name)
+        categories= Category.objects.filter(store=store)
+        serializers=CategorySerializer(categories,many=True)
+        return Response(serializers.data)
 
 
 
@@ -141,7 +147,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         """
         Instantiates and returns the list of permissions that this view requires.
         """
-        if self.action == 'public_list' and 'card_data':
+        if self.action == 'public_list' or 'get_card_data':
             permission_classes = []
         else:
             permission_classes = [IsAuthenticated]

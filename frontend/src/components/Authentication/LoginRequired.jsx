@@ -7,7 +7,7 @@ import {ForgetPassword} from './ForgetPassword';
 
 export const LoginReguired = props => {
   let location = useLocation();
-  const { website } = useParams();
+  const { store_slug } = useParams();
 
   const { context,page } = useContext(MyContext);
     if (!context.user) {

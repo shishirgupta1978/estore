@@ -1,16 +1,41 @@
 import React, { useEffect, useState,useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {Spinner,Title} from ".";
+import { useLocation } from "react-router-dom";
 import { BASE_URL,MyContext,axiosApi } from "../utility";
 import { Button, Container,Row,Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { Input } from ".";
 export const Contact = () => {
   
+    const location = useLocation();
+    const [store_slug,setStore_slug]=useState(null)
+    const {category,setCategory, context, setContext, search, setSearch,setBanners,setProducts } = useContext(MyContext);
+    const navigate = useNavigate();
+    const [contact, setContact] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+    
+
+    useEffect(() => {
+      const regex = /\/store\/([^/]+)/i; 
+      const match =location.pathname.match(regex);
+      if (match) {
+        setStore_slug(match[1].toLowerCase());
+        const config = { method: "get", headers: { "Content-Type": "application/json" } }
+        axiosApi(`store/get-website/${match[1].toLowerCase()}/`, config, setContact, setContext);
+  
+      } else{
+        setStore_slug(null);
+      }
+    
+  
+  
+  
+  }, [location.pathname]);
+  
+
 
     
 	const { website } = useContext(MyContext);
-
 	const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
 
   
@@ -34,7 +59,6 @@ export const Contact = () => {
 	
 	
 
-	const navigate = useNavigate();
 	useEffect(()=>{
 		if(data.is_success)
 		{
@@ -84,7 +108,7 @@ export const Contact = () => {
 						</form>
 			</section>
 		</div>
-        </Col><Col>        <pre>{website?.contact}</pre> 
+        </Col><Col>        { contact.is_success && contact.result && <pre>{contact.result.contact ? contact.result.contact :"" }</pre>} 
 </Col>
         </Row>
         </Container>

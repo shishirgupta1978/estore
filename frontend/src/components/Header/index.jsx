@@ -19,13 +19,13 @@ const Header = () => {
   
   const [store, setStore] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
   const data = ""
-  const { context, setContext, search, setSearch,setBanners,setProducts } = useContext(MyContext);
+  const {cart, context, setContext, setSearch,setBanners,setProducts } = useContext(MyContext);
+  
   const [timeLeft, setTimeLeft] = useState(null);
   const [timer, setTimer] = useState(null);
-  const [cart, setCart] = useState(localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : {});
+  
   const [jwtToken, setJwtToken] = useState(null);
   const [store_slug,setStore_slug]=useState(null)
-
 
 
 
@@ -69,9 +69,6 @@ const Header = () => {
   }, [store]);
 
 
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify({ ...cart }));
-  }, [cart]);
 
 
 
@@ -137,7 +134,7 @@ const Header = () => {
 
 
   return (
-    <Navbar expand="lg" bg='dark' variant='dark'>
+    <Navbar sticky="top" expand="lg" bg='dark' variant='dark'>
       <Container fluid>
       <Navbar.Brand as={Link} to={store_slug ? `/store/${store_slug}/` : '/'}>{store_slug ? (<>{store.is_success && (<>{store.result.logo_img_url && (<img height='22px' src={store.result.logo_img_url} className='logoimg' alt='Logo' />         )}       {store.result.store_name} </>       )}  </> ) : 'SG'} </Navbar.Brand>
       <Nav className="mx-auto"><SearchBar/></Nav>
@@ -148,9 +145,9 @@ const Header = () => {
           <Nav className="ms-auto">
 
             <Nav.Link as={Link} to={store_slug ? `/store/${store_slug}/` :"/"}>Home</Nav.Link>
-            <Nav.Link as={Link} to={store_slug ? `/store/${store_slug}/aboutus/`: "/aboutus/"}>About Us</Nav.Link>
+            <Nav.Link as={Link} to={store_slug ? `/store/${store_slug}/about-us/`: "/about-us/"}>About Us</Nav.Link>
             <Nav.Link as={Link} to={store_slug ? `/store/${store_slug}/contact/`: "/contact/" }>Contact Us</Nav.Link>
-            {store_slug && <Nav.Link as={Link} to={ `/store/${store_slug}/cart/` }>Cart<sup style={{ color: 'yellow' }}></sup></Nav.Link>}
+            {store_slug && <Nav.Link as={Link} to={ `/store/${store_slug}/cart/` }>Cart<sup style={{ color: 'yellow' }}>{Object.keys(cart).length}</sup></Nav.Link>}
 
             {context.user ? <> <NavDropdown title="Profile" id="collasible-nav-dropdown" align="end">
 
@@ -159,7 +156,7 @@ const Header = () => {
                 alt='profile image' style={{ height: '24px' }}
                 className='rounded-circle'
               />}
-              <NavDropdown.Item as={Link} to={`/store/${store_slug}/changepassword/`}>Change Password</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to={`/store/${store_slug}/change-password/`}>Change Password</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={logoutHandler}>
                 Logout

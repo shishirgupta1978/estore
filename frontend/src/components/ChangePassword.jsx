@@ -45,7 +45,7 @@ export const ChangePassword = () => {
 		} else {
 			
 			const config = { method: "post", headers: { "Content-Type": "application/json", "Authorization": true }, data:formData }
-			axiosApi(`api/auth/users/set_password/`, config, setData,setContext);
+			axiosApi(`account/change-password/`, config, setData,setContext);
 	
 		}
 	};

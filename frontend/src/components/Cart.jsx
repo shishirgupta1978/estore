@@ -9,15 +9,15 @@ import { Input } from "./Input";
 
 
 
+
 export const Cart = () => {
 const { context, setContext } = useContext(MyContext);
 const {store_slug} =useParams()
 
-const [ cart,setCart] = useState(localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) :{});
+const [ cart,setCart] = useState(localStorage.getItem("Cart") ? JSON.parse(localStorage.getItem("Cart")) :{});
 const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
 
 useEffect(() => {
-  console.log(cart);
     const config = { method: "post", headers: { "Content-Type": "application/json" },data:cart }
     axiosApi(`store/websites/${store_slug}/get-cart-data/`, config, setLoadData, setContext);
 
