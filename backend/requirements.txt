@@ -7,3 +7,4 @@ psycopg2-binary
 whitenoise[brotli]
 django-cors-headers
 gunicorn
+Pillow

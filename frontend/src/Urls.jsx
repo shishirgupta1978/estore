@@ -3,10 +3,11 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 
 import {Routes,Route,Navigate} from 'react-router-dom'
-import {ProductProfile,CategoryProfile, StoreProfile, Login, Register, ActivateUser,HomePage,ForgetPassword, UpdateProfile,LogViewer,Utility,ChangePassword ,ResetPassword, CreateWebsite,WebsiteProfile,Cart,Products,Website,Contact,AboutUs } from './components'
+import {ProductProfile,CategoryProfile, StoreProfile, ActivateUser,HomePage, UpdateProfile,ChangePassword ,ResetPassword, CreateWebsite,Cart,Products,Contact,AboutUs } from './components'
 import { ToastContainer } from "react-toastify";
-import { Header,Footer } from './components'
-import { PrivateRoute } from './utility'
+import  Header  from './components/Header'
+import { Footer } from './components'
+import { LoginReguired } from './components/Authentication/LoginRequired'
 
 export const Urls=()=> {
 
@@ -18,35 +19,26 @@ export const Urls=()=> {
       <Routes>
         
         <Route path="/" element={<HomePage />}/>
-        <Route path="/home/" element={<PrivateRoute><HomePage/></PrivateRoute>}/>
-        <Route path="/create-website" element={<PrivateRoute><CreateWebsite/></PrivateRoute>}/>
-        <Route path="create-website" element={<PrivateRoute><StoreProfile/></PrivateRoute>}/>
-        <Route path="create-website/:store_id/" element={<PrivateRoute><CategoryProfile/></PrivateRoute>}/> 
-        <Route path="create-website/:store_id/:category_id/" element={<PrivateRoute><ProductProfile/></PrivateRoute>}/>  
-        <Route path="forgetpassword" element={<ForgetPassword/>}/>
-        <Route path="register" element={<Register/>}/>
-        <Route path="changepassword" element={<PrivateRoute><ChangePassword/></PrivateRoute>}/>
+        <Route path="/home/" element={<LoginReguired><HomePage/></LoginReguired>}/>
+        <Route path="/create-website" element={<LoginReguired><CreateWebsite/></LoginReguired>}/>
+        <Route path="create-website" element={<LoginReguired><StoreProfile/></LoginReguired>}/>
+        <Route path="create-website/:store_id/" element={<LoginReguired><CategoryProfile/></LoginReguired>}/> 
+        <Route path="create-website/:store_id/:category_id/" element={<LoginReguired><ProductProfile/></LoginReguired>}/>  
+        <Route path="changepassword" element={<LoginReguired><ChangePassword/></LoginReguired>}/>
         
         
         <Route path="/store/:store_slug/" element={<Products/>}/>
-        <Route path="/store/:store_slug/home/" element={<PrivateRoute><Products/></PrivateRoute>}/>
-        <Route path="/store/:store_slug/cart/" element={<PrivateRoute><Cart/></PrivateRoute>}/>
-        <Route path="forgetpassword" element={<ForgetPassword/>}/>
-        <Route path="register" element={<Register/>}/>
-        <Route path="changepassword" element={<PrivateRoute><ChangePassword/></PrivateRoute>}/>
+        <Route path="/store/:store_slug/home/" element={<LoginReguired><Products/></LoginReguired>}/>
+        <Route path="/store/:store_slug/cart/" element={<LoginReguired><Cart/></LoginReguired>}/>
+        <Route path="changepassword" element={<LoginReguired><ChangePassword/></LoginReguired>}/>
  
         <Route path="/store/:store_slug/aboutus/" element={<AboutUs/>}/>
         <Route path="/store/:store_slug/contact/" element={<Contact/>}/>
         <Route path="activate/:uid/:token" element={<ActivateUser/>}/>
         <Route path="resetpassword" element={<ResetPassword/>}/>
-        <Route path="profile" element={<PrivateRoute><UpdateProfile/></PrivateRoute>}/>
+        <Route path="profile" element={<LoginReguired><UpdateProfile/></LoginReguired>}/>
        
-        
-        
       
-
-
-
        </Routes>
        <Footer/>
       <ToastContainer theme="dark" />

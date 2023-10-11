@@ -4,19 +4,17 @@ import { useLocation } from 'react-router-dom';
 
 import { BiSearch } from 'react-icons/bi';
 import { Link, NavLink, useParams } from 'react-router-dom';
-import { Input } from './Input';
 import jwt_decode from 'jwt-decode';
-import { getAccessToken, refresh, MyContext, removeUser, BASE_URL } from '../utility';
+import { axiosApi,getAccessToken, refresh, MyContext, removeUser, BASE_URL } from '../../utility';
 import { useNavigate } from "react-router-dom";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { BiRefresh } from "react-icons/bi"
 import { MdArrowDropDown } from "react-icons/md"
-import { NoProfileImg, LogoImg } from '../assets/images';
+import { NoProfileImg, LogoImg } from '../../assets/images';
 import { Badge } from 'react-bootstrap';
-import { axiosApi } from '../utility';
 
 
-export const Header = () => {
+const Header = () => {
   const location = useLocation();
   
   const [store, setStore] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
@@ -141,7 +139,8 @@ export const Header = () => {
   return (
     <Navbar expand="lg" bg='dark' variant='dark'>
       <Container fluid>
-        <Navbar.Brand as={Link} to="/">{store_slug ? <>{store.is_success && <>{store.result.logo_img_url ? <img height='22px' src={store.result.logo_img_url} className='logoimg' /> : store.result.store_name}</>}</>:"SG"}  </Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">{store_slug ? <> {store.is_success && <>{store.result.logo_img_url ? <img height='22px' src={store.result.logo_img_url} className='logoimg' /> : store.result.store_name} </> }</>:"SG"}  </Navbar.Brand>   
+        
         <Nav className="me-auto">
 
           <InputGroup style={{ maxWidth: '260px' }}>{store_slug &&
@@ -200,3 +199,4 @@ export const Header = () => {
 };
 
 
+export default Header;

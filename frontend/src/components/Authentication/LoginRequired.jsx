@@ -1,9 +1,11 @@
 import React, { useEffect,useContext } from 'react';
 import { useLocation, Navigate,useParams } from 'react-router-dom';
-import { MyContext } from '.';
-import { Login,ForgetPassword,Register } from '../components';
+import { MyContext } from '../../utility';
+import {Login} from './Login';
+import {Register} from './Register';
+import {ForgetPassword} from './ForgetPassword';
 
-export const PrivateRoute = props => {
+export const LoginReguired = props => {
   let location = useLocation();
   const { website } = useParams();
 

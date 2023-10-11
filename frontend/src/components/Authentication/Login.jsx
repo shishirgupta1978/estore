@@ -1,15 +1,13 @@
 import React, { useEffect, useState,useContext } from "react";
 import jwt_decode from "jwt-decode";
-import { Input } from ".";
 import { Button } from "react-bootstrap";
 import { FaSignInAlt } from "react-icons/fa";
 import { NavLink,Link, useNavigate } from "react-router-dom";
-import {  useParams } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
-
+import {  useParams,useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import {Spinner,Title} from ".";
-import {MyContext,axiosApi} from "../utility";
+import {Spinner,Title} from "..";
+import {MyContext,axiosApi} from "../../utility";
+import {FloatingLabel,Form,Row,Col} from 'react-bootstrap';
 
 export const Login=()=> {
   const { store_slug } = useParams();
@@ -18,6 +16,7 @@ export const Login=()=> {
   const [isChecked, setIsChecked] = useState(localStorage.getItem("email") ? true :false);
 	const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
 	const {context,setContext,setPage } = useContext(MyContext);
+
 
 	const handleCheckboxChange = (event) => {
 	  setIsChecked(event.target.checked);
@@ -64,26 +63,10 @@ export const Login=()=> {
     <div className="form mt-2">
       <h2>Login</h2>
       <form onSubmit={submitHandler}>
-      
-      <Input
-        label="Email Address"
-        type="email"
-        
-        value={email}
-        required
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      
-      <Input
-        type="password"
-        label="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <div className='row'><div className='column'><input type="checkbox" style={{width:'30px'}} checked={isChecked} onChange={handleCheckboxChange} /> Remember me</div><div className='column'>         <NavLink onClick={()=>{setPage("ForgetPassword")} }> Forget password?</NavLink></div></div>
-
-      <div className='row'><div className='column'><Button variant="dark" type="submit">Login</Button></div></div>
+      <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3" ><Form.Control type="email" placeholder="name@example.com" value={email} required onChange={(e) => setEmail(e.target.value)} /></FloatingLabel>
+      <FloatingLabel controlId="floatingPassword" label="Password"><Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/></FloatingLabel>        
+      <Row><Col> <Form.Group className="mb-3" controlId="formBasicCheckbox"> <Form.Check type="checkbox" label="Remember me" checked={isChecked} onChange={handleCheckboxChange} /> </Form.Group></Col><Col> <NavLink onClick={()=>{setPage("ForgetPassword")} }> Forget password?</NavLink></Col></Row>
+      <Button variant="dark" type="submit" className="my-2">Login</Button>
       </form>
       <p style={{textAlign:'left'}}>Don't have an account? <NavLink onClick={()=>{setPage("Register")}} >click here.</NavLink></p>
     </div></>

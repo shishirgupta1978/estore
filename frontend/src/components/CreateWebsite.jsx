@@ -2,9 +2,7 @@ import React,{useEffect,useContext} from 'react'
 import { Outlet } from 'react-router-dom';
 import { MyContext } from '../utility';
 import { useNavigate } from 'react-router-dom';
-import { Sidebar } from './Sidebar';
-import { Header } from './Header';
-import { Footer } from './Footer';
+import { Sidebar } from './Sidebar'
 export const CreateWebsite = () => {
   const navigate = useNavigate();
   const { context} = useContext(MyContext);
