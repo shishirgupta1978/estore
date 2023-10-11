@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+$main-height:calc(100vh - 80px);
+$sidebar-width:270px;
+
+//#e8e6eb;
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Outfit", sans-serif;
+}
+
+.logoimg{
+  height: '100%';
+}
+.dropdown-menu{
+  margin-left: "-215px";
+}
+.homepage{
+    h1{
+		font-weight: bolder;
+		font-size: 40px;
+		letter-spacing: 1cqb;
+		text-transform: uppercase;
+	}
+	p{
+		font-size: 24px;
+    margin-top: 10px;
+    text-align: justify;
+	}
+
+}
+.form {
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+   
+
+  }
+
+  .material-input {
+    display: flex;
+    flex-direction: column;
+    margin:  6px;
+    
+  
+    label {
+        position: relative;
+        left:10px;
+     text-transform: capitalize;
+      font-size: 14px;
+      margin-bottom: -10px;
+      font-weight: 700;
+      align-self: flex-start;
+      
+    }
+  
+    .input-container {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 8px;
+  
+      .material-icons {
+        font-size: 18px;
+        margin-right: 8px;
+      }
+      
+  
+      input,select,textarea {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: inherit; /* Inherit font size from parent */
+        background-color: inherit; /* Inherit background color from parent */
+      }
+    }
+  }
+  option{
+    padding: '0px';
+    background-color: transparent;
+  }
+
+
+
+.sidebar {
+	position: relative;
+	left: $sidebar-width; /* Initial position outside the screen */
+	width: 0px;
+    top:0;
+    
+//	transition: left 0.3s ease-in-out; /* Smooth slide-in and slide-out transition */
+	z-index: 1;
+    overflow-y: auto;
+  }
+  
+  .sidebar.open {
+	left: 0; /* Show the sidebar by bringing it into the screen */
+    width: $sidebar-width;
+  }
+  
+  .toggle-button {
+	position: fixed;
+	top: 50px;
+	left: 10px; 
+	background :transparent;
+    opacity: 0.5;
+	font-size: 40px;
+	cursor: pointer;
+	outline: none;
+	border: none;
+	
+    z-index: 2;
+	
+  }
+  
+  
+  .sidebar-menu {
+	display: flex;
+	flex-direction: column;
+//	justify-content: center;
+//	align-items: center;
+	height: 100%;
+	padding-top: 40px;
+  }
+  
+  .sidebar-menu a {
+	text-decoration: none;
+	font-size: 20px;
+	padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-transform: uppercase;
+	font-weight: 500;
+	transition: color 0.3s ease-in-out;
+  }
+  .sidebar-menu a:hover {
+	background-color: azure;
+  }
+  
+ .active{
+	background-color: azure;
+  }
+
+
+  
+.footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    p{
+        margin: auto;
+    }
+}
+
+
+.dashboard {
+    height: 100%;
+      display: flex; 
+      justify-content: space-between;
+      
+      
+      .left {
+       
+        height: 100%;
+        overflow-y: auto;
+      }
+    
+      .right {
+        height: 100%;
+        overflow-y: auto;
+        padding-top: 10px;
+  
+        flex: 1; 
+    
+       
+      }
+    }
+    
+    .spinner-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 5000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .spinner {
+        width: 100px;
+        height: 100px;
+        border: 10px solid;
+        border-color: #000 transparent #555 transparent;
+        border-radius: 50%;
+        animation: spin 1.2s linear infinite;
+    }
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    
+
+
+pre {
+    white-space: pre-wrap;
+}
+
+main{
+    height: $main-height;
+    overflow-y: auto;
+    //background-image: url("../images/bg.jpg");
+
+  }
+.sidebar{
+    height: $main-height;
+    //top:50px;
+}
+.row {
+    display: flex;
+    flex-wrap: wrap; /* Allow columns to wrap to the next row */
+}
+
+.column {
+    flex: 1; /* Distribute equal width among columns */
+    padding: 10px;
+//    border: 1px solid #ccc;
+    //text-align: center;
+}
+
+
+
+.utility {
+    height: 100%;
+      display: flex; // Use Flexbox
+      justify-content: space-between; // Distribute space between left and right columns
+      align-items: center; // Center vertically
+      
+      .right {
+       
+        height: 100%;
+  
+        flex: 1; // Take up as much space as available
+        margin: auto;
+      h1{
+          color:#3d4a61;
+          font-weight: bolder;
+          font-size: 20px;
+          letter-spacing: 1cqb;
+          text-align: center;
+          text-transform: uppercase;
+      }
+      p{
+          font-size: 24px;
+      margin-top: 10px;
+      text-align: justify;
+      }
+    
+     
+      }
+    
+      .left {
+        height: 100%;
+  
+        min-width: 450px;
+        max-width: 450px;
+        flex: 1; // Take up as much space as available
+    //    background-color: #f3f3f3;
+  //      border: 1px solid #ccc;
+        text-align: center;
+    
+        h2 {
+          font-size: 20px;
+          margin-bottom: 10px;
+        }
+    
+    
+        
+      }
+    }
+    .download{
+        width: 100%;
+        margin-top: 30px;
+        text-transform: uppercase;
+      }
+    
+
+
+/* Add media queries for responsiveness */
+@media screen and (max-width: 768px) {
+    .column {
+        flex: 100%; /* Make columns occupy full width on smaller screens */
+        margin-bottom: 10px;
+    }
+}
+
+@import 'bootstrap/scss/bootstrap.scss'
