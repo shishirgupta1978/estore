@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { InputGroup, Dropdown, DropdownButton, Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
-
+import { SearchBar } from './SearchBar';
 import { BiSearch } from 'react-icons/bi';
 import { Link, NavLink, useParams } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
@@ -139,26 +139,8 @@ const Header = () => {
   return (
     <Navbar expand="lg" bg='dark' variant='dark'>
       <Container fluid>
-        <Navbar.Brand as={Link} to="/">{store_slug ? <> {store.is_success && <>{store.result.logo_img_url ? <img height='22px' src={store.result.logo_img_url} className='logoimg' /> : store.result.store_name} </> }</>:"SG"}  </Navbar.Brand>   
-        
-        <Nav className="me-auto">
-
-          <InputGroup style={{ maxWidth: '260px' }}>{store_slug &&
-            <DropdownButton
-              variant="outline-secondary"
-              title="All"
-              id="input-group-dropdown-1"
-            >
-              <Dropdown.Item onClick={(e) => { setCategory({ id: 0, name: "All" }) }}>All</Dropdown.Item>
-              {data.product_categories && data.product_categories.length > 0 && data.product_categories.map((key) => <Dropdown.Item key={key.id} onClick={(e) => { setCategory(key) }} >{key.name}</Dropdown.Item>)}
-
-            </DropdownButton>}
-            <Form.Control onChange={(e) => setSearch(e.target.value)}
-              type="search"
-              value={search}
-              placeholder="Search" />
-          </InputGroup>
-        </Nav>
+      <Navbar.Brand as={Link} to={store_slug ? `/store/${store_slug}/` : '/'}>{store_slug ? (<>{store.is_success && (<>{store.result.logo_img_url && (<img height='22px' src={store.result.logo_img_url} className='logoimg' alt='Logo' />         )}       {store.result.store_name} </>       )}  </> ) : 'SG'} </Navbar.Brand>
+      <Nav className="mx-auto"><SearchBar/></Nav>
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
@@ -187,7 +169,7 @@ const Header = () => {
 
 
             </> :
-              <Nav.Link as={Link} to={store_slug ? `/store/${store_slug}/home/` :'/home/'}>Login</Nav.Link>}
+              <Nav.Link as={Link} to={store_slug ? `/store/${store_slug}/login/` :'/login/'}>Login</Nav.Link>}
           </Nav>
 
 

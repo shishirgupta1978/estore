@@ -60,16 +60,15 @@ export const Login=()=> {
   return (
     <>
     {data.is_loading && <Spinner />}
-    <div className="form mt-2">
+    <Form  className="form mt-2" onSubmit={submitHandler}>
       <h2>Login</h2>
-      <form onSubmit={submitHandler}>
       <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3" ><Form.Control type="email" placeholder="name@example.com" value={email} required onChange={(e) => setEmail(e.target.value)} /></FloatingLabel>
       <FloatingLabel controlId="floatingPassword" label="Password"><Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/></FloatingLabel>        
       <Row><Col> <Form.Group className="mb-3" controlId="formBasicCheckbox"> <Form.Check type="checkbox" label="Remember me" checked={isChecked} onChange={handleCheckboxChange} /> </Form.Group></Col><Col> <NavLink onClick={()=>{setPage("ForgetPassword")} }> Forget password?</NavLink></Col></Row>
       <Button variant="dark" type="submit" className="my-2">Login</Button>
-      </form>
       <p style={{textAlign:'left'}}>Don't have an account? <NavLink onClick={()=>{setPage("Register")}} >click here.</NavLink></p>
-    </div></>
+      </Form>
+    </>
   );
 }
 
