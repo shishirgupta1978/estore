@@ -6,11 +6,12 @@ import { toast } from "react-toastify";
 import {Spinner,Title} from "..";
 import { Input } from "..";
 import { NoProfileImg } from "../../assets/images";
-export const UpdateProfile = () => {
+export const Profile = () => {
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [profileUrl, setProfileUrl] = useState(null);
 	const [documentUrl, setDocumentUrl] = useState(null);
 	const [selectedDocument, setSelectedDocument]=useState(null);
+	const [method,setMethod]=useState(null)
 
 	const handleImageClick = () => {
 	  fileInputRef.current.click();
@@ -64,21 +65,22 @@ export const UpdateProfile = () => {
 		if(data.is_success)
 		{
 			toast.success("Record update successfully.")
-			navigate("/")
+			
 		}
 		
 
 		const config = { method: "get", headers: { "Content-Type": "application/json", "Authorization": true } }
 		if(!loadData.is_success)
 		{
-			axiosApi(`account/auth/`, config, setLoadData, setContext);
+			axiosApi(`account/profile/`, config, setLoadData, setContext);
 		}
 		else{
 			
-			setFormData({...formData, first_name:loadData.result.first_name ? loadData.result.first_name:'' ,last_name:loadData.result.last_name ? loadData.result.last_name : ''});
+			setFormData({...formData, first_name:loadData.result.length ==1 && loadData.result[0].first_name ? loadData.result[0].first_name:'' ,last_name:loadData.result.length ==1 && loadData.result[0].last_name ? loadData.result[0].last_name : ''});
+			setMethod(loadData.result.length == 1 ? "put" : "post")
 
-			setDocumentUrl(loadData.result.documents_url ?  BASE_URL+ loadData.result.documents_url : null);
-		    setProfileUrl(loadData.result.profile_pic_url ? BASE_URL+ loadData.result.profile_pic_url : null);
+			setDocumentUrl(loadData.result.length ==1 && loadData.result[0].documents_url ?  BASE_URL+ loadData.result[0].documents_url : null);
+		    setProfileUrl(loadData.result.length ==1 && loadData.result[0].profile_pic_url ? BASE_URL+ loadData.result[0].profile_pic_url : null);
 
 			
 
@@ -105,12 +107,12 @@ export const UpdateProfile = () => {
 			myformData.append("first_name", formData.first_name);
 			myformData.append("last_name", formData.last_name);
 
-			const config = { method: "post", headers: { 'Content-Type': 'multipart/form-data', "Authorization": true }, data:myformData }
-			axiosApi(`account/auth/`, config, setData,setContext);
+			const config = { method:method, headers: { 'Content-Type': 'multipart/form-data', "Authorization": true }, data:myformData }
+
+			axiosApi(`account/profile/`, config, setData,setContext);
 		
 
-		
-    	
+   	
 
 	};	
 
@@ -121,7 +123,7 @@ export const UpdateProfile = () => {
 	{loadData.is_success && <>
 			<section className="form mt-2">
 			
-							<h2> Update Profile</h2>
+							<h2> {loadData.result.length == 0 ? "Add" : "Update"  }Profile</h2>
 						<form onSubmit={submitHandler}>
 
 						<img
@@ -146,7 +148,7 @@ export const UpdateProfile = () => {
 							<Input  label='Last Name' type='text' name='last_name' value={formData.last_name} onChange={handleChange}/>
 							{documentUrl ? <a href={documentUrl}>Download</a> :""}
 							<Input label="Update Documents" style={{marginTop:'5px'}} type='file' name='documents' accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" onChange={handleDocumentChange}/>	
-							<Button type="submit" variant="dark" className="mt-2">Update</Button>
+							<Button type="submit" variant="dark" className="mt-2">{loadData.result.length == 0 ? "Add" : "Update"  }</Button>
 						</form>
 			</section></>}
 		</div>

@@ -5,7 +5,7 @@ from django.conf import settings
 from .models import Enquiry
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer,TokenRefreshSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .models import User
+from .models import User,Profile
 from rest_framework.exceptions import ValidationError
 import django.contrib.auth.password_validation as validators
 from django.core import exceptions
@@ -112,3 +112,11 @@ class MyTokenRefreshSerializer(TokenRefreshSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
         return token
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.email')
+    username = serializers.ReadOnlyField()
+    class Meta: 
+        model = Profile 
+        fields = '__all__'

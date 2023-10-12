@@ -11,10 +11,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from config.settings import DEFAULT_FROM_EMAIL
-from .serializers import MyTokenObtainPairSerializer,MyTokenRefreshSerializer,UserSerializer, ChangePasswordSerializer,ResetPasswordSerializer,UserRegistrationSerializer
+from .serializers import MyTokenObtainPairSerializer,MyTokenRefreshSerializer,UserSerializer, ChangePasswordSerializer,ResetPasswordSerializer,UserRegistrationSerializer,ProfileSerializer
 
 from rest_framework_simplejwt.views import TokenViewBase,TokenRefreshView
-from .models import Enquiry,User
+from .models import Enquiry,User,Profile
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework import viewsets
@@ -33,6 +33,10 @@ class UserRegistrationViewSet(ModelViewSet):
             serializer.save()
             return Response({'message': 'User registered successfully.'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 
 
@@ -162,3 +166,36 @@ class MyTokenObtainPairView(TokenViewBase):
 
 class MyTokenRefreshView(TokenRefreshView):
     serializer_class = MyTokenRefreshSerializer
+
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    """
+    A ViewSet for viewing and editing the categories associated with the authenticated user's store.
+    """
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+ 
+ 
+    def get_queryset(self):
+        return Profile.objects.filter(user=self.request.user)
+
+
+    def update(self, request, *args, **kwargs):
+        instance = get_object_or_404(Profile,user=self.request.user)
+  
+        serializer = self.get_serializer(instance, data=request.data, partial=False)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=self.request.user)
+
+        return Response(serializer.data)
+
+
+        # Use the same serializer as in create
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+        
+ 

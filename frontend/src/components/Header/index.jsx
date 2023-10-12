@@ -156,6 +156,7 @@ const Header = () => {
                 alt='profile image' style={{ height: '24px' }}
                 className='rounded-circle'
               />}
+              <NavDropdown.Item as={Link} to={store_slug ? `/store/${store_slug}/profile/` :"/profile/"}>Manage Profile</NavDropdown.Item>
               <NavDropdown.Item as={Link} to={store_slug ? `/store/${store_slug}/change-password/` :"/change-password/"}>Change Password</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={logoutHandler}>

@@ -5,10 +5,8 @@ export * from './Sidebar';
 export * from './HomePage'
 export * from './CreateWebsite';
 export * from './Input';
-export * from './Authentication/UpdateProfile';
+export * from './Authentication/Profile';
 export * from './Authentication/ChangePassword';
-export * from './Authentication/ResetPassword';
-export * from './TaskSelect';
 export * from './ProductCard';
 export * from './Products';
 export * from './Cart';

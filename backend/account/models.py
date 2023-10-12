@@ -49,7 +49,7 @@ class Profile(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.username:
-            if self.user.email:
+            if self.user and self.user.email:
                 self.username = self.user.email.split('@')[0]
                 base_username = self.username.lower()
                 counter = 1

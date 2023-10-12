@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from .views import send_enquiry_email,MyTokenObtainPairView,UserViewSet,MyTokenRefreshView,UserRegistrationViewSet
+from .views import send_enquiry_email,MyTokenObtainPairView,UserViewSet,MyTokenRefreshView,UserRegistrationViewSet,ProfileViewSet
 from rest_framework import routers
 
 
@@ -10,6 +10,8 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'auth', UserViewSet, basename='auth')
 router.register(r'register', UserRegistrationViewSet, basename='user-registration')
+router.register(r'profile', ProfileViewSet, basename='user-profile')
+
 
 urlpatterns = [
     path('', include(router.urls)),

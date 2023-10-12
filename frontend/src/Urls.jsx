@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { useLocation, useParams } from 'react-router-dom'
 import {Routes,Route,Navigate} from 'react-router-dom'
-import {ProductProfile,CategoryProfile, StoreProfile,HomePage, UpdateProfile,ChangePassword ,ResetPassword, CreateWebsite,Cart,Products,Contact,AboutUs } from './components'
+import {ProductProfile,CategoryProfile, StoreProfile,HomePage, Profile,ChangePassword , CreateWebsite,Cart,Products,Contact,AboutUs } from './components'
 import { ToastContainer } from "react-toastify";
 import  Header  from './components/Header'
 import { Footer } from './components'
@@ -22,6 +22,8 @@ const location =useLocation();
         <Route path="/contact/"  element={<Contact/>}/>
         <Route path="/aboutus/" element={<AboutUs/>}/>
         <Route path="/change-password/" element={<LoginReguired><ChangePassword/></LoginReguired>}/>
+        <Route path="/profile" element={<LoginReguired><Profile/></LoginReguired>}/>
+
         <Route path="create-website/:store_id/" element={<LoginReguired><CategoryProfile/></LoginReguired>}/> 
         <Route path="create-website/:store_id/:category_id/" element={<LoginReguired><ProductProfile/></LoginReguired>}/>  
         
@@ -31,8 +33,8 @@ const location =useLocation();
         <Route path="/store/:store_slug/about-us/" element={<AboutUs/>}/>
         <Route path="/store/:store_slug/contact/" element={<Contact/>}/>
         <Route path="/store/:store_slug/change-password/" element={<LoginReguired><ChangePassword/></LoginReguired>}/>
-        <Route path="reset-password" element={<ResetPassword/>}/>
-        <Route path="profile" element={<LoginReguired><UpdateProfile/></LoginReguired>}/>
+        
+        <Route path="/store/:store_slug/profile/" element={<LoginReguired><Profile/></LoginReguired>}/>
        </Routes>
        <Footer/>
       <ToastContainer theme="dark" />
