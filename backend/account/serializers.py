@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from django.contrib.auth.password_validation import validate_password
 from django.conf import settings
 from .models import Enquiry
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer,TokenRefreshSerializer
@@ -8,6 +9,33 @@ from .models import User
 from rest_framework.exceptions import ValidationError
 import django.contrib.auth.password_validation as validators
 from django.core import exceptions
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
+    password_confirm = serializers.CharField(write_only=True, style={'input_type': 'password'})
+
+    class Meta:
+        model = User
+        fields = ['email', 'password', 'password_confirm']
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
+
+    def validate(self, data):
+        password = data.get('password')
+        password_confirm = data.get('password_confirm')
+        if password != password_confirm:
+            raise serializers.ValidationError("Passwords do not match.")
+        validate_password(password)
+        return data
+
+    def create(self, validated_data):
+        user = User(
+            email=validated_data['email']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):

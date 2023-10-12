@@ -3,6 +3,7 @@ import { NavLink,useParams,useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { axiosApi,MyContext } from '../../utility';
 import {FloatingLabel,Form} from 'react-bootstrap';
+import { toast } from "react-toastify";
 
 export const Register = () => {
   const {setPage} =useContext(MyContext)
@@ -36,8 +37,8 @@ export const Register = () => {
 			toast.error("Passwords do not match");
 		} else {
 			
-			const config = { method: "post", headers: { "Content-Type": "application/json", "Authorization": true }, data:{email: email, password: password, password_confirm: passwordConfirm} }
-			axiosApi(`account/auth/`, config, setData,setContext);
+			const config = { method: "post", headers: { "Content-Type": "application/json" }, data:{email: email, password: password, password_confirm: passwordConfirm} }
+			axiosApi(`account/register/`, config, setData,setContext);
 	
 		}
 	};

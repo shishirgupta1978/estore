@@ -11,15 +11,29 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from config.settings import DEFAULT_FROM_EMAIL
-from .serializers import MyTokenObtainPairSerializer,MyTokenRefreshSerializer,UserSerializer, ChangePasswordSerializer,ResetPasswordSerializer
+from .serializers import MyTokenObtainPairSerializer,MyTokenRefreshSerializer,UserSerializer, ChangePasswordSerializer,ResetPasswordSerializer,UserRegistrationSerializer
 
 from rest_framework_simplejwt.views import TokenViewBase,TokenRefreshView
 from .models import Enquiry,User
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly
 from rest_framework.response import  Response
+
+
+class UserRegistrationViewSet(ModelViewSet):
+    serializer_class = UserRegistrationSerializer
+
+    @action(detail=False, methods=['post'],permission_classes=[])
+    def register(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'User registered successfully.'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -36,12 +50,13 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         if self.action == 'change_password':
             permission_classes = [IsAuthenticated]
-        elif self.action == 'send_otp' or self.action == 'reset_password' or self.action == 'create':
+        elif self.action == 'send_otp' or self.action == 'reset_password' or self.action == 'user_create':
             permission_classes=[] 
         else:
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
     
+
 
     @action(detail=True, methods=['post'])
     def change_password(self, request):
