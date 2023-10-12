@@ -1,7 +1,9 @@
 from django.core.mail import send_mail
+from django.core.mail import EmailMessage, get_connection
 from rest_framework.decorators import action
 import string
 import random
+from django.conf import settings
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions
@@ -18,7 +20,7 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly
 from rest_framework.response import  Response
-#User = get_user_model()
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -26,31 +28,47 @@ class UserViewSet(viewsets.ModelViewSet):
     associated with the user.
     """
     queryset=User.objects.all()
-    serializer_class = UserSerializer
+    serializer=UserSerializer
+
     def get_permissions(self):
         """
         Instantiates and returns the list of permissions that this view requires.
         """
-        if self.action == 'set_password':
+        if self.action == 'change_password':
             permission_classes = [IsAuthenticated]
         elif self.action == 'send_otp' or self.action == 'reset_password':
             permission_classes=[] 
         else:
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
-
+    
 
     @action(detail=True, methods=['post'])
-    def set_password(self, request, pk=None):
-        user = self.get_object()
-        serializer = ChangePasswordSerializer(data=request.data)
+    def change_password(self, request):
+        
+ 
+        
+        user = request.user
+        
+        serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
+        
+
         if serializer.is_valid():
-            user.set_password(serializer.validated_data['password'])
+            old_password = serializer.validated_data.get('old_password')
+            password = serializer.validated_data.get('password')
+
+            # Check if the old password matches the user's current password
+            if not user.check_password(old_password):
+                return Response({'detail': 'Old password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Set the new password
+            user.set_password(password)
             user.save()
-            return Response({'status': 'password set'})
+
+            return Response({'status': 'Password set'}, status=status.HTTP_200_OK)
         else:
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
 
 
     @action(detail=True, methods=['post'])
@@ -98,25 +116,25 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 @api_view(["POST"])
-@permission_classes([permissions.AllowAny])
+@permission_classes([])
 def send_enquiry_email(request):
     data = request.data 
 
-    try:
-        subject = data["subject"]
-        name = data["name"]
-        email = data["email"]
-        message = data["message"]
-        from_email = data["email"]
-        recipient_list = [DEFAULT_FROM_EMAIL]
-        send_mail(subject, message, from_email, recipient_list, fail_silently=True)
-        enquiry = Enquiry(name=name, email=email, subject=subject, message=message)
-        enquiry.save()
-
-        return Response({"success": "Your Enquiry was successfully submitted"})
-
-    except:
-        return Response({"fail": "Enquiry was not sent. Please try again"})
+    name = data["name"]
+    subject = data["subject"]
+    mobile_no=data["mobile_no"]
+    message = data["message"] +"\n\nName:"+data["name"]+"\n" +"Mobile No:"+ mobile_no
+    from_email = data["email"]
+    receiver=data["receiver"]
+    recipient_list = ["abc.gmail.com"]
+    
+    with get_connection(    host=settings.EMAIL_HOST,   port=settings.EMAIL_PORT,   username=settings.EMAIL_HOST_USER,  password=settings.EMAIL_HOST_PASSWORD, use_tls=settings.EMAIL_USE_TLS  ) as connection:
+        EmailMessage(subject, message, from_email, recipient_list, connection=connection).send()
+    
+    #send_mail("OTP for validation", "TEsis", "sg@gmail.com", ["abc.com"], fail_silently=False)
+    enquiry = Enquiry(name=name, email=from_email, subject=subject,mobile_no=data["mobile_no"], message=message)
+    enquiry.save()
+    return Response({"success": "Your Enquiry was successfully submitted"},status=status.HTTP_200_OK)
 
 
 

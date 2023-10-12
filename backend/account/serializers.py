@@ -5,12 +5,52 @@ from .models import Enquiry
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer,TokenRefreshSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import User
+from rest_framework.exceptions import ValidationError
+import django.contrib.auth.password_validation as validators
+from django.core import exceptions
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
-     class Meta: 
+    old_password = serializers.CharField(required=True, write_only=True)
+    password_confirm = serializers.CharField(required=True, write_only=True)
+    class Meta: 
         model = User 
-        fields = ['password']
+        fields = ['old_password','password','password_confirm']
+
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+
+        if not user.check_password(value):
+            raise ValidationError("Old password is incorrect.")
+
+        return value
+
+    def validate(self, data):
+        password = data.get('password')
+        password_confirm = data.get('password_confirm')
+        user = self.context['request'].user
+
+        if password != password_confirm:
+            raise ValidationError("New passwords do not match.")
+        errors = dict() 
+        try:
+            
+            validators.validate_password(password=password, user=user)
+        
+    
+        except exceptions.ValidationError as e:
+            errors['password'] = list(e.messages)
+        
+        if errors:
+            raise serializers.ValidationError(errors)
+        
+        return data
+
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data['password'])
+        instance.save()
+        return instance
 
 class ResetPasswordSerializer(serializers.ModelSerializer):
      class Meta: 

@@ -76,7 +76,7 @@ class Address(models.Model):
 
 class Enquiry(TimeStampedUUIDModel):
     name = models.CharField(_("Your Name"), max_length=100)
-    phone_number = models.IntegerField(blank=True,null=True )
+    mobile_no = models.IntegerField(blank=True,null=True )
     email = models.EmailField(_("Email"))
     subject = models.CharField(_("Subject"), max_length=100)
     message = models.TextField(_("Message"))
