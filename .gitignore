@@ -6,7 +6,6 @@
 .env.dev
 .env.prod
 model.pickle
-backend/db.sqlite3
 pg_data/*
 staticfiles/*
 mediafiles/*
