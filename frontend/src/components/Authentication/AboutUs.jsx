@@ -1,11 +1,11 @@
 import React, { useEffect, useState,useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {Spinner,Title} from ".";
+import {Spinner,Title} from "..";
 import { useLocation } from "react-router-dom";
-import { BASE_URL,MyContext,axiosApi } from "../utility";
+import { BASE_URL,MyContext,axiosApi } from "../../utility";
 import { Button, Container,Row,Col } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { Input } from ".";
+import { Input } from "..";
 
 export const AboutUs = () => {
   

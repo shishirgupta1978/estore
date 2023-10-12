@@ -129,7 +129,7 @@ const Header = () => {
   const logoutHandler = () => {
     removeUser();
     setContext({ ...context, user: null });
-    navigate(`/store/${store_slug}/`);
+    navigate(store_slug ? `/store/${store_slug}/`: '/');
   };
 
 
@@ -156,7 +156,7 @@ const Header = () => {
                 alt='profile image' style={{ height: '24px' }}
                 className='rounded-circle'
               />}
-              <NavDropdown.Item as={Link} to={`/store/${store_slug}/change-password/`}>Change Password</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to={store_slug ? `/store/${store_slug}/change-password/` :"/change-password/"}>Change Password</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={logoutHandler}>
                 Logout

@@ -18,9 +18,10 @@ const location =useLocation();
       <Routes>
         <Route path="/" element={<HomePage />}/>
         <Route path="/login/" element={<LoginReguired><Navigate to="/"/></LoginReguired>}/>
-        <Route path="/create-website" element={<LoginReguired><CreateWebsite/></LoginReguired>}/>
+        <Route path="/create-website/" element={<LoginReguired><CreateWebsite/></LoginReguired>}/>
         <Route path="/contact/"  element={<Contact/>}/>
         <Route path="/aboutus/" element={<AboutUs/>}/>
+        <Route path="/change-password/" element={<LoginReguired><ChangePassword/></LoginReguired>}/>
         <Route path="create-website/:store_id/" element={<LoginReguired><CategoryProfile/></LoginReguired>}/> 
         <Route path="create-website/:store_id/:category_id/" element={<LoginReguired><ProductProfile/></LoginReguired>}/>  
         

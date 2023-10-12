@@ -2,8 +2,8 @@ import React, { useEffect, useState,useContext } from "react";
 import { FaUser } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import {Spinner,Title} from ".";
-import { axiosApi,MyContext } from "../utility";
+import {Spinner,Title} from "..";
+import { axiosApi,MyContext } from "../../utility";
 
 export const ResetPassword = () => {
 	const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })

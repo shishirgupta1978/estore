@@ -1,11 +1,11 @@
 import React, { useEffect, useState,useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { BASE_URL,MyContext,axiosApi } from "../utility";
+import { BASE_URL,MyContext,axiosApi } from "../../utility";
 import { toast } from "react-toastify";
-import {Spinner,Title} from ".";
-import { Input } from ".";
-import { NoProfileImg } from "../assets/images";
+import {Spinner,Title} from "..";
+import { Input } from "..";
+import { NoProfileImg } from "../../assets/images";
 export const UpdateProfile = () => {
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [profileUrl, setProfileUrl] = useState(null);

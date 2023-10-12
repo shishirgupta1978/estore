@@ -36,7 +36,7 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         if self.action == 'change_password':
             permission_classes = [IsAuthenticated]
-        elif self.action == 'send_otp' or self.action == 'reset_password':
+        elif self.action == 'send_otp' or self.action == 'reset_password' or self.action == 'create':
             permission_classes=[] 
         else:
             permission_classes = [IsAdminUser]
@@ -78,7 +78,9 @@ class UserViewSet(viewsets.ModelViewSet):
         otp=''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
         user.otp=otp
         user.save()
-        send_mail("OTP for validation", otp, "sg@gmail.com", [email], fail_silently=True)
+        with get_connection(    host=settings.EMAIL_HOST,   port=settings.EMAIL_PORT,   username=settings.EMAIL_HOST_USER,  password=settings.EMAIL_HOST_PASSWORD, use_tls=settings.EMAIL_USE_TLS  ) as connection:
+           EmailMessage("OTP for validation", otp, "sg@gmail.com", [email], connection=connection).send()
+        #send_mail("OTP for validation", otp, "sg@gmail.com", [email], fail_silently=True)
         return Response({'status': 'OTP Send on your email Id'})
   
 

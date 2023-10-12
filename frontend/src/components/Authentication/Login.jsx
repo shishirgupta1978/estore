@@ -46,11 +46,8 @@ export const Login=()=> {
 		else{
 			localStorage.removeItem("email")
 		}
-
-
 		const config = { method: "post", headers: { "Content-Type": "application/json" }, data:{'email' : email, 'password': password} }
 		axiosApi(`account/tokens/`, config, setData, setContext);
-	
 	};
 
 
