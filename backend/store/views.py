@@ -1,4 +1,5 @@
 from rest_framework.decorators import action
+from django.template.defaultfilters import slugify
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions
@@ -43,11 +44,13 @@ class StoreProfileViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
     
-    @action(detail=False)
+    @action(detail=False, methods=['get'])
     def public_list(self, request):
         stores= StoreProfile.objects.all()
-        serializers=StoreProfileSerializer(stores,many=True)
-        return Response(serializers.data)
+        serializer=StoreProfileSerializer(stores,many=True)
+        return Response(serializer.data)
+
+
 
 
 
@@ -197,7 +200,14 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 @api_view(['GET'])
+def get_store_products(request,store_slug):
+    store = get_object_or_404(StoreProfile, website_name=store_slug)
+    Products=Product.objects.filter(category__in=Category.objects.filter(store=store))
+    serializers=ProductSerializer(Products,many=True)
+    return Response(serializers.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
 def get_store(request,store_slug):
     store = get_object_or_404(StoreProfile, website_name=store_slug)
     serializers=StoreProfileSerializer(store)
-    return Response(serializers.data)
+    return Response(serializers.data, status=status.HTTP_200_OK)

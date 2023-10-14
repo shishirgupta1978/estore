@@ -180,22 +180,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
         return Profile.objects.filter(user=self.request.user)
 
 
-    def update(self, request, *args, **kwargs):
-        instance = get_object_or_404(Profile,user=self.request.user)
+
   
-        serializer = self.get_serializer(instance, data=request.data, partial=False)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(user=self.request.user)
-
-        return Response(serializer.data)
-
-
-        # Use the same serializer as in create
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data)
-
         
  

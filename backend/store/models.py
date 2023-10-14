@@ -11,12 +11,12 @@ User=get_user_model()
 
 class StoreProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="stores")
-    website_name = models.SlugField(unique=True,blank=True, null=True)
+    website_name = models.SlugField(unique=True)
     shop_img_url = models.URLField(verbose_name=_("Shop Image Url"), max_length=255)
-    short_description = models.CharField(verbose_name=_("Description"), max_length=255)
+    short_description = models.CharField(verbose_name=_("Short Description"), max_length=255)
     logo_img_url = models.URLField(verbose_name=_("Logo Url"), max_length=255,blank=True,null=True)
-    store_name = models.CharField(verbose_name=_("Brand Name"), max_length=150)
-    contact = models.TextField(verbose_name=_("contact"),blank=True,null=True)
+    store_name = models.CharField(verbose_name=_("Store Name"), max_length=150)
+    contact = models.TextField(verbose_name=_("Contact"),blank=True,null=True)
     description = models.TextField(verbose_name=_("Description"),blank=True,null=True)
     
     def __str__(self):

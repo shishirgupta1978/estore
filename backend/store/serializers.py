@@ -14,10 +14,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class CategorySerializer(serializers.ModelSerializer):
     store = serializers.ReadOnlyField(source='store.website_name')
-    products=ProductSerializer(many=True)
+    products=ProductSerializer(many=True,read_only=True)
     class Meta: 
         model = Category
         fields = '__all__'
+
 
 
 class BannerSerializer(serializers.ModelSerializer):
@@ -27,9 +28,12 @@ class BannerSerializer(serializers.ModelSerializer):
         fields ='__all__'
 
 class StoreProfileSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.email')
-    product_categories=CategorySerializer(many=True)
-    banners=BannerSerializer(many=True)
+   
+    website_name=serializers.ReadOnlyField()
+    banners=BannerSerializer(many=True,read_only=True)
+    user=serializers.ReadOnlyField(source='user.email')
+    product_categories=CategorySerializer(many=True,read_only=True)
+
     class Meta: 
         model = StoreProfile
         fields ='__all__'

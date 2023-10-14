@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from .views import StoreProfileViewSet,CategoryViewSet,ProductViewSet,get_store,BannerViewSet
+from .views import StoreProfileViewSet,CategoryViewSet,ProductViewSet,get_store,get_store_products,BannerViewSet
 
 
 router = routers.DefaultRouter()
@@ -18,6 +18,7 @@ router.register(r'stores/(?P<store_id>[^/.]+)/categories/(?P<category_id>[^/.]+)
 urlpatterns = [
     path('', include(router.urls)),
     path('websites/', StoreProfileViewSet.as_view({'get':'public_list'}), name="wesite-list"),
+    path('get-website-products/<slug:store_slug>/',get_store_products , name="get-website-products"),
     path('get-website/<slug:store_slug>/',get_store , name="get-website"),
     path('websites/<int:store_id>/', CategoryViewSet.as_view({'get':'public_list'}), name="category-list"),
     path('websites/<slug:store_slug>/get-cart-data/', ProductViewSet.as_view({'post':'get_cart_data'}), name="get-cart-data"),
