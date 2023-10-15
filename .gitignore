@@ -7,7 +7,6 @@
 .env.prod
 model.pickle
 pg_data/*
-staticfiles/*
 mediafiles/*
 **/migrations/**
 !**/migrations
