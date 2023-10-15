@@ -11,7 +11,7 @@ const Register = () => {
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-	const { context,setContext } = useContext(Context);
+	
 	
 
 	const [formData, setFormData] = useState({email: '', password: '', password_confirm: ''});
@@ -37,7 +37,7 @@ const Register = () => {
 		} else {
 			
 			const config = { method: "post", headers: { "Content-Type": "application/json" }, data:{email: email, password: password, password_confirm: passwordConfirm} }
-			axiosApi(`account/register/`, config, setData,setContext);
+			axiosApi(`account/register/`, config, setData);
 	
 		}
 	};

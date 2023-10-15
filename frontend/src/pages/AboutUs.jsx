@@ -9,7 +9,7 @@ const AboutUs = () => {
   
     const location = useLocation();
     const [store_slug,setStore_slug]=useState(null)
-    const {category,setCategory, context, setContext, search, setSearch,setBanners,setProducts, BASE_URL,MyContext,axiosApi  } = useContext(Context);
+    const {axiosApi  } = useContext(Context);
     const navigate = useNavigate();
     const [aboutUs, setAboutUs] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
     
@@ -20,7 +20,7 @@ const AboutUs = () => {
       if (match) {
         setStore_slug(match[1].toLowerCase());
         const config = { method: "get", headers: { "Content-Type": "application/json" } }
-        axiosApi(`store/get-website/${match[1].toLowerCase()}/`, config, setAboutUs, setContext);
+        axiosApi(`store/get-website/${match[1].toLowerCase()}/`, config, setAboutUs);
   
       } else{
         setStore_slug(null);

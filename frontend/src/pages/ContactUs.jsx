@@ -8,9 +8,9 @@ const ContactUs = () => {
   
     const location = useLocation();
     const [store_slug,setStore_slug]=useState(null)
-    const {BASE_URL,axiosApi,category,setCategory, context, setContext, search, setSearch,setBanners,setProducts } = useContext(Context);
+    const {axiosApi } = useContext(Context);
     const navigate = useNavigate();
-    const [contact, setContact] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+    const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
     
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const ContactUs = () => {
       if (match) {
         setStore_slug(match[1].toLowerCase());
         const config = { method: "get", headers: { "Content-Type": "application/json" } }
-        axiosApi(`store/get-website/${match[1].toLowerCase()}/`, config, setContact, setContext);
+        axiosApi(`store/get-website/${match[1].toLowerCase()}/`, config,setLoadData);
   
       } else{
         setStore_slug(null);
@@ -33,13 +33,12 @@ const ContactUs = () => {
 
 
     
-	const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+
 	const [sendData, setSendData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
 
   
 
 	const [formData, setFormData] = useState({
-		
 		name: '',
         mobile_no:'',
         email:'',
@@ -63,7 +62,7 @@ const ContactUs = () => {
 		{
 			toast.success("Mail send successfully.")
 			setFormData({ name: '', mobile_no:'', email:'', subject:'', message:'',receiver :'abc@gmail.com'})
-            setData({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+       
 		}
 		
 	},[sendData.is_success])
@@ -76,18 +75,18 @@ const ContactUs = () => {
 	const submitHandler = (e) => {
 		e.preventDefault();
 			const config = { method: "post", headers: { 'Content-Type': 'multipart/form-data' }, data:formData }
-			axiosApi(`account/send-enquiry-email/`, config, setData,setContext);
+			axiosApi(`account/send-enquiry-email/`, config, setSendData);
 		};	
 
   return (
 
 
 
-    <Container className="mt-2">
+    <Container className="pt-2">
         <Row>
-		<Col>
+		<Col xs={12} md={6}>
 	
-			<Form className="form" onSubmit={submitHandler}>
+			<Form className="form mb-3" onSubmit={submitHandler}>
 				<h2> Contact us</h2>
 				<FloatingLabel label="Name" className="mb-3" ><Form.Control type="text" value={formData.name} placeholder="Name" onChange={handleChange} name="name" required/></FloatingLabel>
 				<FloatingLabel label="Mobile No." className="mb-3" ><Form.Control type="number" value={formData.mobile_no} placeholder="Mobile No." onChange={handleChange} name="mobile_no" required/></FloatingLabel>
@@ -98,7 +97,18 @@ const ContactUs = () => {
      		</Form>
 	
         </Col>
-		<Col>        { contact.is_success && contact.result && <pre>{contact.result.contact ? contact.result.contact :"" }</pre>} 
+		<Col xs={12} md={6}>
+      <iframe
+        title="Google Map"
+        loading="lazy"
+		height='450px'
+		width='500px'
+        allowfullscreen
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d876.0348238616541!2d77.23850410644738!3d28.565579597315452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1697346309301!5m2!1sen!2sus"
+      ></iframe>
+
+		
+		        { loadData.is_success && loadData.result && <pre>{loadData.result.contact ? loadData.result.contact :"" }</pre>} 
 </Col>
         </Row>
         </Container>

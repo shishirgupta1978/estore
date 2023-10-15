@@ -11,14 +11,14 @@ const ProductProfile = () => {
     const {store_id,category_id} = useParams();
     const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
     const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-     const { context,setContext,axiosApi } = useContext(Context);
+     const { user,axiosApi } = useContext(Context);
     const [items, setItems] = useState(null);
     const [checked1,setChecked1]=useState(true);
   
       const navigate = useNavigate();
       useEffect(()=>{
           const config = { method: "get", headers: { "Content-Type": "application/json", "Authorization": true } }
-          axiosApi(`store/stores/${store_id}/categories/${category_id}/products/`, config, setLoadData, setContext);
+          axiosApi(`store/stores/${store_id}/categories/${category_id}/products/`, config, setLoadData);
               },[data])
   
       useEffect(()=>{
@@ -36,21 +36,21 @@ const ProductProfile = () => {
       const [selectedItem, setSelectedItem] = useState(null);
     
       const handleAddItem = (x) => {
-        const config = { method: "post", headers: { "Content-Type": "application/json", "Authorization": true },data:{...x,"user":context?.user?.user_id} }
-            axiosApi(`store/stores/${store_id}/categories/${category_id}/products/`, config, setData, setContext);
+        const config = { method: "post", headers: { "Content-Type": "application/json", "Authorization": true },data:{...x,"user":user?.user_id} }
+            axiosApi(`store/stores/${store_id}/categories/${category_id}/products/`, config, setData);
     
       };
     
       const handleEditItem = (id, x) => {
     
         const config = { method: "put", headers: { "Content-Type": "application/json", "Authorization": true },data:x }
-            axiosApi(`store/stores/${store_id}/categories/${category_id}/products/${id}/`, config, setData, setContext);
+            axiosApi(`store/stores/${store_id}/categories/${category_id}/products/${id}/`, config, setData);
     
       };
     
       const handleDeleteItem = (id) => {
         const config = { method: "delete", headers: { "Content-Type": "application/json", "Authorization": true } }
-            axiosApi(`store/stores/${store_id}/categories/${category_id}/products/${id}/`, config, setData, setContext);
+            axiosApi(`store/stores/${store_id}/categories/${category_id}/products/${id}/`, config, setData);
       };
     
       return (

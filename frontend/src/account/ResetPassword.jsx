@@ -8,7 +8,7 @@ import Context  from "../../context";
 export const ResetPassword = () => {
 	const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
     const { uid, token } = useParams();
-	const { axiosApi,context,setContext } = useContext(Context);
+	const { axiosApi } = useContext(Context);
 	const [formData, setFormData] = useState({
 		uid:uid,
         token:token,
@@ -44,7 +44,7 @@ export const ResetPassword = () => {
 		} else {
 		
 			const config = { method: "post", headers: { "Content-Type": "application/json" }, data:formData }
-			axiosApi(`api/auth/users/reset_password_confirm/`, config, setData, setContext);
+			axiosApi(`api/auth/users/reset_password_confirm/`, config, setData);
 
 		}
 

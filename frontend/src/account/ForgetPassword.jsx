@@ -8,7 +8,7 @@ import {FloatingLabel,Form} from 'react-bootstrap';
 
 const ForgetPassword=()=> {
   const [Email, setEmail] = useState('');
-  const {setPage,axiosApi} =useContext(Context);
+  const {setPage} =useContext(Context);
   const handleEmail = () => {
     // Add your login logic here
   };

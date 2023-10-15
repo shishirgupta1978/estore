@@ -8,13 +8,13 @@ const BannerProfile = () => {
   const {store_id} =useParams()
 	const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
   const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-	const { context,setContext,axiosApi } = useContext(Context);
+	const { axiosApi } = useContext(Context);
   const [items, setItems] = useState([]);
 
 	const navigate = useNavigate();
 	useEffect(()=>{
 		const config = { method: "get", headers: { "Content-Type": "application/json", "Authorization": true } }
-		axiosApi(`store/stores/${store_id}/banners/`, config, setLoadData, setContext);
+		axiosApi(`store/stores/${store_id}/banners/`, config, setLoadData);
 			},[data])
 
 
@@ -35,20 +35,20 @@ const BannerProfile = () => {
 
   const handleAddItem = (x) => {
     const config = { method: "post", headers: { "Content-Type": "application/json", "Authorization": true },data:x }
-		axiosApi(`store/stores/${store_id}/banners/`, config, setData, setContext);
+		axiosApi(`store/stores/${store_id}/banners/`, config, setData);
 
   };
 
   const handleEditItem = (id, x) => {
 
     const config = { method: "put", headers: { "Content-Type": "application/json", "Authorization": true },data:x }
-		axiosApi(`store/stores/${store_id}/banners/${id}/`, config, setData, setContext);
+		axiosApi(`store/stores/${store_id}/banners/${id}/`, config, setData);
 
   };
 
   const handleDeleteItem = (id) => {
     const config = { method: "delete", headers: { "Content-Type": "application/json", "Authorization": true } }
-		axiosApi(`store/stores/${store_id}/banners/${id}/`, config, setData, setContext);
+		axiosApi(`store/stores/${store_id}/banners/${id}/`, config, setData);
   };
 
   return (

@@ -42,7 +42,7 @@ const Profile = () => {
   
 	const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
 	const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-	const { context,setContext ,BASE_URL,MyContext,axiosApi} = useContext(Context);
+	const {BASE_URL,axiosApi} = useContext(Context);
 
 	const [formData, setFormData] = useState({
 		first_name: '',
@@ -67,7 +67,7 @@ const Profile = () => {
 		}
 
 		const config = { method: "get", headers: { "Content-Type": "application/json", "Authorization": true } }
-		axiosApi(`account/profile/`, config, setLoadData, setContext);
+		axiosApi(`account/profile/`, config, setLoadData);
 
 	},[data])
 
@@ -111,12 +111,12 @@ const Profile = () => {
 			const config = { method:method, headers: { 'Content-Type': 'multipart/form-data', "Authorization": true }, data:myformData }
 			if(method =="post")
 			{
-				axiosApi(`account/profile/`, config, setData,setContext);
+				axiosApi(`account/profile/`, config, setData);
 			}
 			
 			if(method =="put")
 			{
-				axiosApi(`account/profile/${id}/`, config, setData,setContext);
+				axiosApi(`account/profile/${id}/`, config, setData);
 			}
 
 
@@ -149,8 +149,8 @@ const Profile = () => {
     
 
 
-	<FloatingLabel controlId="floatingInput" label="First Name" className="mb-3" ><Form.Control  placeholder="First Name" type='text' name='first_name' value={formData.first_name} onChange={handleChange}/></FloatingLabel>
-	<FloatingLabel controlId="floatingInput" label="Last Name" className="mb-3" ><Form.Control placeholder="Last Name" type='text' name='last_name' value={formData.last_name} onChange={handleChange}/></FloatingLabel>
+	<FloatingLabel  label="First Name" className="mb-3" ><Form.Control  placeholder="First Name" type='text' name='first_name' value={formData.first_name} onChange={handleChange}/></FloatingLabel>
+	<FloatingLabel  label="Last Name" className="mb-3" ><Form.Control placeholder="Last Name" type='text' name='last_name' value={formData.last_name} onChange={handleChange}/></FloatingLabel>
 
 							
 							{documentUrl ? <a href={documentUrl}>Download</a> :""}

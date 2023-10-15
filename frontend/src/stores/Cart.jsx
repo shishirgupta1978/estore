@@ -4,27 +4,55 @@ import {FloatingLabel, Container, Row, Col, Form, Button,Table,Spinner } from 'r
 import { Outlet, useParams } from 'react-router-dom';
 import Context from '../context';
 import { NavLink, useNavigate  } from 'react-router-dom';
+import { toast } from "react-toastify";
 
 
 
 
 const Cart = () => {
-const { context, setContext,axiosApi } = useContext(Context);
-const [Name,setName] = useState('')
+const {axiosApi,cart,setCart } = useContext(Context);
+const [name,setName] = useState('')
 const [mobileNo,setMobileNo]=useState('')
+const [email,setEmail]=useState('')
 const [address,setAddress]=useState('')
+
 const {store_slug} =useParams()
 
-const [ cart,setCart] = useState(localStorage.getItem("Cart") ? JSON.parse(localStorage.getItem("Cart")) :{});
 const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+const [invoiceData, setInvoiceData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
 
 useEffect(() => {
     const config = { method: "post", headers: { "Content-Type": "application/json" },data:cart }
-    axiosApi(`store/websites/${store_slug}/get-cart-data/`, config, setLoadData, setContext);
+    axiosApi(`store/websites/${store_slug}/get-cart-data/`, config, setLoadData);
 
 }, []);
 
+useEffect(() => {
+  if(invoiceData.is_success)
+  {
+    toast.success("Thank you for shopping, Your order has been successfully placed.")
+    setName('')
+    setMobileNo('')
+    setEmail('')
+    setAddress('')
+    setCart({})
+    localStorage.removeItem('Cart');
 
+
+  }
+
+}, [invoiceData]);
+
+
+
+
+const handleSubmit = (e)=>
+{
+  e.preventDefault();
+  const config = { method: "post", headers: { "Content-Type": "application/json" }, data:{customer_name:name, mobile_no:mobileNo, address:address, email:email, cart:cart}  }
+  axiosApi(`store/websites/${store_slug}/send-order/`, config, setInvoiceData);
+ 
+}
 
 
   return (
@@ -47,18 +75,19 @@ useEffect(() => {
         </Col>
         <Col md={6} style={{paddingTop:'10px'}}>
 
-        <div className="form mt-2">
+        <Form onSubmit={handleSubmit} className="form mt-2">
       <h2>Shipping Address</h2>
       <FloatingLabel  label="Name"  className="mb-3"><Form.Control type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required/></FloatingLabel>
       <FloatingLabel  label="Mobile No" className="mb-3"><Form.Control type="text" placeholder="Mobile No" value={mobileNo} onChange={(e) => setMobileNo(e.target.value)} required/></FloatingLabel>
+      <FloatingLabel  label="Email" className="mb-3"><Form.Control type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required/></FloatingLabel>
       <FloatingLabel  label="Address" className="mb-3"><Form.Control as="textarea" style={{'height':'100px'}} placeholder="Address" value={address} onChange={(e) => setAddress(e.target.value)} required/></FloatingLabel>
 
 
       <Row><Col>
-      <Button variant="dark" type="submit">Generate Invoice</Button></Col></Row>
+      <Button variant="dark" type="submit">Send Order</Button></Col></Row>
 
 
-    </div>
+    </Form>
 
           </Col>
       </Row>

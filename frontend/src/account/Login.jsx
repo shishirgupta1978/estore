@@ -13,7 +13,7 @@ const Login=()=> {
   const [password, setPassword] = useState('');
   const [isChecked, setIsChecked] = useState(localStorage.getItem("email") ? true :false);
 	const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-	const {context,setContext,setPage,axiosApi } = useContext(Context);
+	const {user,setUser,setPage,axiosApi } = useContext(Context);
 
 
 	const handleCheckboxChange = (event) => {
@@ -29,11 +29,11 @@ const Login=()=> {
 		if(data.is_success )
 		{
 			localStorage.setItem("Tokens",JSON.stringify(data.result));
-     	    setContext({...context,user:jwt_decode(data.result.access)});
+     	    setUser(jwt_decode(data.result.access));
 
 		}
 	
-	}, [data,context.user]);
+	}, [data,user]);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
@@ -45,7 +45,7 @@ const Login=()=> {
 			localStorage.removeItem("email")
 		}
 		const config = { method: "post", headers: { "Content-Type": "application/json" }, data:{'email' : email, 'password': password} }
-		axiosApi(`account/tokens/`, config, setData, setContext);
+		axiosApi(`account/tokens/`, config, setData);
 	};
 
 

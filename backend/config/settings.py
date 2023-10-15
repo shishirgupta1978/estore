@@ -12,10 +12,6 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(" ")
 CSRF_TRUSTED_ORIGINS =env("CSRF_TRUSTED_ORIGINS").split(" ")
 
 
-
-
-
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,7 +45,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR.parent / "frontend" / "dist"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,8 +66,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+                "ENGINE": env("POSTGRES_ENGINE"),
+                "NAME": env("POSTGRES_DB"),
+                "USER": env("POSTGRES_USER"),
+                "PASSWORD": env("POSTGRES_PASSWORD"),
+                "HOST": env("PG_HOST"),
+                "PORT": env("PG_PORT"),
+
     }
 }
 
@@ -107,7 +108,7 @@ USE_TZ = True
 DATETIME_FORMAT = '%d-%m-%Y %H:%M:%S' 
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [ ]
+STATICFILES_DIRS = [BASE_DIR.parent / "frontend" / "dist" / "static" ]
 STATIC_ROOT = BASE_DIR.parent / "staticfiles"
 
 MEDIA_URL = "media/"
@@ -200,7 +201,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = "shishirgupta2011@gmail.com"
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL") 
 DOMAIN = env("DOMAIN")
 
 

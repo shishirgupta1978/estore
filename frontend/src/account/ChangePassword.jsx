@@ -7,7 +7,7 @@ import {Button,FloatingLabel,Form,Row,Col} from 'react-bootstrap';
 
 const ChangePassword = () => {
 	const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-	const { context,setContext,axiosApi } = useContext(Context);
+	const {axiosApi } = useContext(Context);
 	
 
 	const [formData, setFormData] = useState({
@@ -47,7 +47,7 @@ const ChangePassword = () => {
 		} else {
 			
 			const config = { method: "post", headers: { "Content-Type": "application/json", "Authorization": true }, data:formData }
-			axiosApi(`account/change-password/`, config, setData,setContext);
+			axiosApi(`account/change-password/`, config, setData);
 	
 		}
 	};

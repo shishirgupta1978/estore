@@ -8,13 +8,13 @@ const StoreProfile = () => {
 
 	const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
   const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-	const { context,setContext,BASE_URL,axiosApi } = useContext(Context);
+	const { axiosApi } = useContext(Context);
   const [items, setItems] = useState([]);
 
 	const navigate = useNavigate();
 	useEffect(()=>{
 		const config = { method: "get", headers: { "Content-Type": "application/json", "Authorization": true } }
-		axiosApi("store/stores/", config, setLoadData, setContext);
+		axiosApi("store/stores/", config, setLoadData);
 			},[data])
 
 
@@ -37,21 +37,21 @@ const StoreProfile = () => {
     console.log("Add");
     console.log(x)
     const config = { method: "post", headers: { "Content-Type": "application/json", "Authorization": true },data:x }
-		axiosApi("store/stores/", config, setData, setContext);
+		axiosApi("store/stores/", config, setData);
   
   };
 
   const handleEditItem = (id, x) => {
     console.log("Edit");
     const config = { method: "put", headers: { "Content-Type": "application/json", "Authorization": true },data:x }
-		axiosApi(`store/stores/${id}/`, config, setData, setContext);
+		axiosApi(`store/stores/${id}/`, config, setData);
     
 
   };
 
   const handleDeleteItem = (id) => {
     const config = { method: "delete", headers: { "Content-Type": "application/json", "Authorization": true } }
-		axiosApi(`store/stores/${id}/`, config, setData, setContext);
+		axiosApi(`store/stores/${id}/`, config, setData);
   };
 
   return (

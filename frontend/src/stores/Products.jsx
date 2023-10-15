@@ -7,18 +7,18 @@ import  StoreCarousel  from "./StoreCarousel";
 
 
 const Products = () => {
-  const { setBanners,context, setContext,search,category, axiosApi } = useContext(Context);
+  const { setBanners,search,category, axiosApi } = useContext(Context);
   const [products,setProducts]=useState([])
   const navigate = useNavigate();
 
   const {store_slug} = useParams();
   const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-  const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+  
 
 
     useEffect(()=>{
         const config = { method: "get", headers: { "Content-Type": "application/json" } }
-        axiosApi(`store/get-website/${store_slug}/`, config, setLoadData, setContext);
+        axiosApi(`store/get-website/${store_slug}/`, config, setLoadData);
             },[])
 
   useEffect(() => {

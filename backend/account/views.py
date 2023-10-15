@@ -23,6 +23,17 @@ from rest_framework.permissions import IsAuthenticated,IsAdminUser,IsAuthenticat
 from rest_framework.response import  Response
 
 
+
+def index(request):
+    return render(request,"index.html",{})
+
+
+
+def catch_all(request, unknown_path):
+    # Render the index page or any other page you want
+    return render(request, 'index.html') 
+
+
 class UserRegistrationViewSet(ModelViewSet):
     serializer_class = UserRegistrationSerializer
 
@@ -98,7 +109,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user.otp=otp
         user.save()
         with get_connection(    host=settings.EMAIL_HOST,   port=settings.EMAIL_PORT,   username=settings.EMAIL_HOST_USER,  password=settings.EMAIL_HOST_PASSWORD, use_tls=settings.EMAIL_USE_TLS  ) as connection:
-           EmailMessage("OTP for validation", otp, "sg@gmail.com", [email], connection=connection).send()
+           EmailMessage("OTP for validation", otp, settings.DEFAULT_FROM_EMAIL, [email], connection=connection).send()
         #send_mail("OTP for validation", otp, "sg@gmail.com", [email], fail_silently=True)
         return Response({'status': 'OTP Send on your email Id'})
   
@@ -147,7 +158,7 @@ def send_enquiry_email(request):
     message = data["message"] +"\n\nName:"+data["name"]+"\n" +"Mobile No:"+ mobile_no
     from_email = data["email"]
     receiver=data["receiver"]
-    recipient_list = ["abc.gmail.com"]
+    recipient_list = [settings.DEFAULT_FROM_EMAIL]
     
     with get_connection(    host=settings.EMAIL_HOST,   port=settings.EMAIL_PORT,   username=settings.EMAIL_HOST_USER,  password=settings.EMAIL_HOST_PASSWORD, use_tls=settings.EMAIL_USE_TLS  ) as connection:
         EmailMessage(subject, message, from_email, recipient_list, connection=connection).send()

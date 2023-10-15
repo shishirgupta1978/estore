@@ -19,7 +19,7 @@ const Header = () => {
   
   const [store, setStore] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
   const data = ""
-  const {cart, context, setContext, setBanners,setProducts,axiosApi,getAccessToken, refresh, removeUser, BASE_URL } = useContext(Context);
+  const {cart, user, setUser, setBanners,setProducts,axiosApi,getAccessToken, refresh, removeUser, BASE_URL } = useContext(Context);
   
   const [timeLeft, setTimeLeft] = useState(null);
   const [timer, setTimer] = useState(null);
@@ -38,7 +38,7 @@ const Header = () => {
       setStore_slug(match[1].toLowerCase());
       
       const config = { method: "get", headers: { "Content-Type": "application/json" } }
-      axiosApi(`store/get-website/${match[1].toLowerCase()}/`, config, setStore, setContext);
+      axiosApi(`store/get-website/${match[1].toLowerCase()}/`, config, setStore);
     } else{
       setStore_slug(null);
     }
@@ -88,7 +88,7 @@ const Header = () => {
           clearInterval(intervalTimer);
           setJwtToken(null);
           removeUser();
-          setContext({ ...context, user: null })
+          setUser(null)
         }
       }, 1000);
 
@@ -100,7 +100,7 @@ const Header = () => {
         clearInterval(timer);
       }
     };
-  }, [jwtToken, context.user]);
+  }, [jwtToken, user]);
 
   const formatTime = (timeInMillis) => {
     const minutes = String(Math.floor(timeInMillis / 60000)).padStart(2, '0');
@@ -126,7 +126,7 @@ const Header = () => {
 
   const logoutHandler = () => {
     removeUser();
-    setContext({ ...context, user: null });
+    setUser(null);
     navigate(store_slug ? `/website/store/${store_slug}/`: '/');
   };
 
@@ -134,23 +134,24 @@ const Header = () => {
   return (
     <Navbar sticky="top" expand="lg" bg='dark' variant='dark'>
       <Container fluid>
-      <Navbar.Brand as={Link} to={store_slug ? `/website/store/${store_slug}/` : '/'}>{store_slug ? (<>{store.is_success && (<>{store.result.logo_img_url && (<img height='22px' src={store.result.logo_img_url} className='logoimg' alt='Logo' />         )}       {store.result.store_name} </>       )}  </> ) : 'SG'} </Navbar.Brand>
+ {/*     <Navbar.Brand as={Link} to={store_slug ? `/website/store/${store_slug}/` : '/'}>{store_slug ? (<>{store.is_success && (<>{store.result.logo_img_url && (<img height='22px' src={store.result.logo_img_url} className='logoimg' alt='Logo' />         )}       {store.result.store_name} </>       )}  </> ) : 'SG'} </Navbar.Brand>*/}
+ <Navbar.Brand as={Link} to='/'>SG</Navbar.Brand>
       <Nav className="mx-auto"><SearchBar/></Nav>
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">
-          <Nav.Link as={Link} to={store_slug ? `/website/store/${store_slug}/` :"/"}>Home</Nav.Link>
+          <Nav.Link as={Link} to={store_slug ? `/website/store/${store_slug}/` :"/"}>{store_slug && store.result?.store_name ? store.result.store_name  :"Home"}</Nav.Link>
           {store_slug ? "":<Nav.Link as={Link} to="/website/create/">Create Store</Nav.Link>}
-            <Nav.Link as={Link} to={store_slug ? `./website/store/${store_slug}/about-us/`: "/about-us/"}>About Us</Nav.Link>
-            <Nav.Link as={Link} to={store_slug ? `/website/store/${store_slug}/contact-us/`: "/contact-us/" }>Contact Us</Nav.Link>
+           {store_slug && <><Nav.Link as={Link} to={store_slug ? `./website/store/${store_slug}/about-us/`: "/about-us/"}>About Us</Nav.Link>
+            <Nav.Link as={Link} to={store_slug ? `/website/store/${store_slug}/contact-us/`: "/contact-us/" }>Contact Us</Nav.Link></>}
             {store_slug && <Nav.Link as={Link} to={ `/website/store/${store_slug}/cart/` }>Cart<sup style={{ color: 'yellow' }}>{Object.keys(cart).length}</sup></Nav.Link>}
 
-            {context.user ? <> <NavDropdown title="Profile" id="collasible-nav-dropdown" align="end">
+            {user ? <> <NavDropdown title="Profile" id="collasible-nav-dropdown" align="end">
 
               {false && <img
-                src={context.user.profile_pic ? BASE_URL + context.user.profile_pic : NoProfileImg}
+                src={user.profile_pic ? BASE_URL + user.profile_pic : NoProfileImg}
                 alt='profile image' style={{ height: '24px' }}
                 className='rounded-circle'
               />}

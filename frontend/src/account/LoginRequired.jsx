@@ -9,8 +9,8 @@ const LoginReguired = props => {
   let location = useLocation();
   const { store_slug } = useParams();
 
-  const { context,page,axiosApi } = useContext(Context);
-    if (!context.user) {
+  const { user,page } = useContext(Context);
+    if (!user) {
     return <>
     {page=="Login" && <Login/>}
     {page=="ForgetPassword" && <ForgetPassword/>}
