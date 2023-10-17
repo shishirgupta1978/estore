@@ -5,7 +5,7 @@ const Footer = () => {
     <>
       <footer style={{ position: 'fixed',bottom: '0',width:'100%',height:'25px'}}> 
       <p className="text-center footer">
-        All Right Reserved.</p>
+        All Rights Reserved.</p>
     </footer>
     </>
   )

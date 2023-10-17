@@ -17,7 +17,7 @@ class StoreProfile(models.Model):
     logo_img_url = models.URLField(verbose_name=_("Logo Url"), max_length=255,blank=True,null=True)
     store_name = models.CharField(verbose_name=_("Store Name"), max_length=150)
     contact = models.TextField(verbose_name=_("Contact"),blank=True,null=True)
-    google_map_url = models.URLField(verbose_name=_("Contact"),max_length=2000,blank=True,null=True)
+    google_map_url = models.URLField(verbose_name=_("Google Map Url"),max_length=2000,blank=True,null=True)
     description = models.TextField(verbose_name=_("Description"),blank=True,null=True)
     
     def __str__(self):

@@ -11,7 +11,7 @@ export const SearchBar = () => {
   const location = useLocation();
   const [store_slug, setStore_slug] = useState(null)
   const { category, setCategory, search, setSearch, axiosApi } = useContext(Context);
-  const [categories, setCategories] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+  const [categories, setCategories] = useState({ 'status': null, 'result': null, 'message': null })
 
   useEffect(() => {
     const regex = /\/store\/([^/]+)/i;

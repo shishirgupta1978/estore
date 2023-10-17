@@ -6,7 +6,7 @@ import { Spinner } from "react-bootstrap";
 import Context  from "../../context";
 
 export const ResetPassword = () => {
-	const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+	const [data, setData] = useState({ 'status': null, 'result': null, 'message': null })
     const { uid, token } = useParams();
 	const { axiosApi } = useContext(Context);
 	const [formData, setFormData] = useState({
@@ -27,14 +27,13 @@ export const ResetPassword = () => {
 
 
 	useEffect(() => {
-		if(data.is_success)
+		if(data.status =='success')
 		{
 			toast.success("Your password has been successfully changed.")
-			navigate("/login")
 		}
 
 		
-	}, [data.is_success]);
+	}, [data]);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
@@ -58,7 +57,7 @@ export const ResetPassword = () => {
 								 Reset Password
 							</h2>
 	
-				{data.is_loading && <Spinner />}
+			
 						<form onSubmit={submitHandler}>
 			
 

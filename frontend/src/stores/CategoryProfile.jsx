@@ -6,10 +6,9 @@ import {FloatingLabel,Form, Container, Row, Col, Button, Modal, Table } from 're
 
 const CategoryProfile = () => {
   const {store_id} =useParams()
-	const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-  const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-	const { axiosApi } = useContext(Context);
-  const [items, setItems] = useState([]);
+	const [loadData, setLoadData] = useState({ 'status': null, 'result': null, 'message': null })
+  const [data, setData] = useState({ 'status': null, 'result': null, 'message': null })
+	const { axiosApi,Loading } = useContext(Context);
 
 	const navigate = useNavigate();
 	useEffect(()=>{
@@ -17,13 +16,6 @@ const CategoryProfile = () => {
 		axiosApi(`store/stores/${store_id}/categories/`, config, setLoadData);
 			},[data])
 
-
-	useEffect(()=>{
-		if(loadData.is_success)
-		{
-			setItems(loadData.result);
-		}
-	},[loadData])
 
 
 
@@ -56,6 +48,7 @@ const CategoryProfile = () => {
       <Row>
         <Col md={12}>
           <h2>Category List</h2>
+          <Loading loadData={loadData}>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -65,7 +58,7 @@ const CategoryProfile = () => {
               </tr>
             </thead>
             <tbody>
-              {items && items.length > 0 && items.map((item) => (
+              {loadData.result && loadData.result.length > 0 && loadData.result.map((item) => (
                 <tr key={item.id}>
                   <td>{item.name}</td>
                   <td><NavLink to={`/website/products/create/${store_id}/${item.id}/`}>Manage Products</NavLink></td>
@@ -93,10 +86,10 @@ const CategoryProfile = () => {
                 </tr>
               ))}
             </tbody>
-          </Table>
+          </Table></Loading>
         </Col>
         <Col md={6}>
-          <Button onClick={() => setShowAddModal(true)}>Add Item</Button>
+          <Button onClick={() => setShowAddModal(true)}>Add Category</Button>
         </Col>
       </Row>
 
@@ -106,7 +99,7 @@ const CategoryProfile = () => {
           <Modal.Title>Add Item</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <FloatingLabel label="Category Name" className="mb-3" ><Form.Control type='text' onChange={(e) => setSelectedItem({ ...selectedItem, name: e.target.value })} required/></FloatingLabel>
+        <FloatingLabel label="Category Name*" className="mb-3" ><Form.Control type='text' onChange={(e) => setSelectedItem({ ...selectedItem, name: e.target.value })} required/></FloatingLabel>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowAddModal(false)}>
@@ -131,7 +124,7 @@ const CategoryProfile = () => {
         </Modal.Header>
         <Modal.Body>
 
-        <FloatingLabel label="Category Name" className="mb-3" ><Form.Control type='text' value={selectedItem ? selectedItem.name : ''}  onChange={(e) => setSelectedItem({ ...selectedItem, name: e.target.value })} required/></FloatingLabel>
+        <FloatingLabel label="Category Name*" className="mb-3" ><Form.Control type='text' value={selectedItem ? selectedItem.name : ''}  onChange={(e) => setSelectedItem({ ...selectedItem, name: e.target.value })} required/></FloatingLabel>
 
 				
         </Modal.Body>

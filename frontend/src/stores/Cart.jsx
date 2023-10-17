@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 
 const Cart = () => {
-const {axiosApi,cart,setCart } = useContext(Context);
+const {axiosApi,cart,setCart,Loading } = useContext(Context);
 const [name,setName] = useState('')
 const [mobileNo,setMobileNo]=useState('')
 const [email,setEmail]=useState('')
@@ -18,8 +18,8 @@ const [address,setAddress]=useState('')
 
 const {store_slug} =useParams()
 
-const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-const [invoiceData, setInvoiceData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+const [loadData, setLoadData] = useState({ 'status': null, 'result': null, 'message': null })
+const [invoiceData, setInvoiceData] = useState({ 'status': null, 'result': null, 'message': null })
 
 useEffect(() => {
     const config = { method: "post", headers: { "Content-Type": "application/json" },data:cart }
@@ -28,7 +28,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  if(invoiceData.is_success)
+  if(invoiceData.status == 'is_success')
   {
     toast.success("Thank you for shopping, Your order has been successfully placed.")
     setName('')
@@ -57,8 +57,8 @@ const handleSubmit = (e)=>
 
   return (
     <div>
-      {loadData.is_loading && <Spinner/>}
-      {loadData.is_success && loadData.result.length>0 &&         <Container fluid>
+      <Loading loadData={loadData}>
+      {loadData.result?.length>0 &&         <Container fluid>
       <Row>
         <Col md={6}>
           <Table striped bordered hover variant="light" style={{width:'100%',marginTop:'10px'}}>
@@ -92,7 +92,9 @@ const handleSubmit = (e)=>
           </Col>
       </Row>
     </Container>}
-    {loadData.is_success && loadData.result.length==0 &&         <p>No Product Added</p>}
+    {loadData.result?.length==0 &&         <p>No Product Added</p>}
+    </Loading>
+    
     </div>
   )
 }

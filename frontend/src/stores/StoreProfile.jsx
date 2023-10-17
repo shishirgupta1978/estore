@@ -1,29 +1,20 @@
 import React, { useEffect, useState,useContext } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { NavLink} from "react-router-dom";
 import Context from "../context";
-import { Form,FloatingLabel,Container, Row, Col, Button, Modal, Table } from 'react-bootstrap';
+import { Form, FloatingLabel, Container, Row, Col, Button, Modal, Table } from 'react-bootstrap';
 
 const StoreProfile = () => {
 
-	const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-  const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-	const { axiosApi } = useContext(Context);
-  const [items, setItems] = useState([]);
+	const [loadData, setLoadData] = useState({ 'status': null, 'result': null, 'message': null })
+  const [data, setData] = useState({ 'status': null, 'result': null, 'message': null })
+	const { axiosApi,Loading } = useContext(Context);
 
-	const navigate = useNavigate();
 	useEffect(()=>{
 		const config = { method: "get", headers: { "Content-Type": "application/json", "Authorization": true } }
 		axiosApi("store/stores/", config, setLoadData);
 			},[data])
 
 
-	useEffect(()=>{
-		if(loadData.is_success)
-		{
-			setItems(loadData.result);
-		}
-	},[loadData])
 
 
 
@@ -59,7 +50,10 @@ const StoreProfile = () => {
       <Row>
         <Col md={12}>
           <h2>Store List</h2>
-          <Table striped bordered hover>
+          
+            <Loading loadData={loadData}>
+
+            <Table striped bordered hover>
             <thead>
               <tr>
                 <th>Url Name</th>
@@ -70,7 +64,7 @@ const StoreProfile = () => {
               </tr>
             </thead>
             <tbody>
-              {items.map((item) => (
+              {loadData.result?.map((item) => (
                 <tr key={item.id}>
                   <td>{item?.website_name}</td>
                   <td>{item.store_name}</td>
@@ -99,7 +93,7 @@ const StoreProfile = () => {
                 </tr>
               ))}
             </tbody>
-          </Table>
+          </Table></Loading>
         </Col>
         <Col md={6}>
           <Button onClick={() => setShowAddModal(true)}>Add Store</Button>
@@ -115,10 +109,11 @@ const StoreProfile = () => {
         
         <Modal.Body>
         <Form>
-        <FloatingLabel label="Store Name" className="mb-3" ><Form.Control type='text'  onChange={(e) => setSelectedItem({ ...selectedItem, store_name: e.target.value })} required/></FloatingLabel>
-        <FloatingLabel label="Shop Image Url" className="mb-3" ><Form.Control type='text' onChange={(e) => setSelectedItem({ ...selectedItem, shop_img_url: e.target.value })} required/></FloatingLabel>
-        <FloatingLabel label="Short Description" className="mb-3" ><Form.Control type='text' onChange={(e) => setSelectedItem({ ...selectedItem, short_description: e.target.value })} required/></FloatingLabel>
+        <FloatingLabel label="Store Name*" className="mb-3" ><Form.Control type='text'  onChange={(e) => setSelectedItem({ ...selectedItem, store_name: e.target.value })} required/></FloatingLabel>
+        <FloatingLabel label="Store Image Url*" className="mb-3" ><Form.Control type='text' onChange={(e) => setSelectedItem({ ...selectedItem, shop_img_url: e.target.value })} required/></FloatingLabel>
+        <FloatingLabel label="Short Description*" className="mb-3" ><Form.Control type='text' onChange={(e) => setSelectedItem({ ...selectedItem, short_description: e.target.value })} required/></FloatingLabel>
         <FloatingLabel label="Logo Image Url" className="mb-3" ><Form.Control type='url' name='logo_img_url'  onChange={(e) => setSelectedItem({ ...selectedItem, logo_img_url: e.target.value })}/></FloatingLabel>
+        <FloatingLabel label="Google Map Url" className="mb-3" ><Form.Control type='url' name='google_map_url'  onChange={(e) => setSelectedItem({ ...selectedItem, google_map_url: e.target.value })}/></FloatingLabel>
         <FloatingLabel label="Contact Information" className="mb-3" ><Form.Control as="textarea" style={{ height: '100px' }} name='contact' rows="3"  onChange={(e) => setSelectedItem({ ...selectedItem, contact: e.target.value })}/></FloatingLabel>
         <FloatingLabel label="Description" className="mb-3" ><Form.Control as="textarea" style={{ height: '100px' }} onChange={(e) => setSelectedItem({ ...selectedItem, description: e.target.value })}/></FloatingLabel>
         </Form>
@@ -138,12 +133,13 @@ const StoreProfile = () => {
         <Modal.Body>
         <Form >
 
-        <FloatingLabel label="Store Name" className="mb-3" ><Form.Control type='text' value={selectedItem ? selectedItem.store_name : ''} onChange={(e) => setSelectedItem({ ...selectedItem, store_name: e.target.value })} required/></FloatingLabel>
-        <FloatingLabel label="Shop Image Url" className="mb-3" ><Form.Control type='text' value={selectedItem ? selectedItem.shop_img_url : ''}  onChange={(e) => setSelectedItem({ ...selectedItem, shop_img_url: e.target.value })} required/></FloatingLabel>
-        <FloatingLabel label="Short Description" className="mb-3" ><Form.Control type='text' value={selectedItem ? selectedItem.short_description : ''} onChange={(e) => setSelectedItem({ ...selectedItem, short_description: e.target.value })} required/></FloatingLabel>
+        <FloatingLabel label="Store Name*" className="mb-3" ><Form.Control type='text' value={selectedItem ? selectedItem.store_name : ''} onChange={(e) => setSelectedItem({ ...selectedItem, store_name: e.target.value })} required/></FloatingLabel>
+        <FloatingLabel label="Store Image Url*" className="mb-3" ><Form.Control type='text' value={selectedItem ? selectedItem.shop_img_url : ''}  onChange={(e) => setSelectedItem({ ...selectedItem, shop_img_url: e.target.value })} required/></FloatingLabel>
+        <FloatingLabel label="Short Description*" className="mb-3" ><Form.Control type='text' value={selectedItem ? selectedItem.short_description : ''} onChange={(e) => setSelectedItem({ ...selectedItem, short_description: e.target.value })} required/></FloatingLabel>
         <FloatingLabel label="Logo Image Url" className="mb-3" ><Form.Control type='url' value={selectedItem ? selectedItem.logo_img_url : ''} name='logo_img_url'  onChange={(e) => setSelectedItem({ ...selectedItem, logo_img_url: e.target.value })} /></FloatingLabel>
+        <FloatingLabel label="Google Map Url" className="mb-3" ><Form.Control type='url' name='google_map_url'  value={selectedItem ? selectedItem.google_map_url : ''} onChange={(e) => setSelectedItem({ ...selectedItem, google_map_url: e.target.value })}/></FloatingLabel>       
         <FloatingLabel label="Contact Information" className="mb-3" ><Form.Control as="textarea" style={{ height: '100px' }} value={selectedItem ? selectedItem.contact : ''} name='contact' rows="3"  onChange={(e) => setSelectedItem({ ...selectedItem, contact: e.target.value })}/></FloatingLabel>
-        <FloatingLabel label="Description" className="mb-3" ><Form.Control as="textarea" style={{ height: '100px' }}  value={selectedItem ? selectedItem.description : ''} onChange={(e) => setSelectedItem({ ...selectedItem, description: e.target.value })}/></FloatingLabel>
+x        <FloatingLabel label="Description" className="mb-3" ><Form.Control as="textarea" style={{ height: '100px' }}  value={selectedItem ? selectedItem.description : ''} onChange={(e) => setSelectedItem({ ...selectedItem, description: e.target.value })}/></FloatingLabel>
         </Form>
 
         </Modal.Body>

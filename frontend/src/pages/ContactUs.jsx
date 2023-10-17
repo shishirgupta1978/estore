@@ -2,15 +2,15 @@ import React, { useEffect, useState,useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Context from "../context";
-import {FloatingLabel,Form, Button, Container,Row,Col,Spinner } from "react-bootstrap";
+import {FloatingLabel,Form, Button, Container,Row,Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 const ContactUs = () => {
   
     const location = useLocation();
     const [store_slug,setStore_slug]=useState(null)
-    const {axiosApi } = useContext(Context);
+    const {axiosApi,Loading } = useContext(Context);
     const navigate = useNavigate();
-    const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+    const [loadData, setLoadData] = useState({ 'status': null, 'result': null, 'message': null })
     
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const ContactUs = () => {
 
     
 
-	const [sendData, setSendData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+	const [sendData, setSendData] = useState({ 'status': null, 'result': null, 'message': null })
 
   
 
@@ -58,14 +58,14 @@ const ContactUs = () => {
 	
 
 	useEffect(()=>{
-		if(sendData.is_success)
+		if(sendData.status =='success')
 		{
 			toast.success("Mail send successfully.")
 			setFormData({ name: '', mobile_no:'', email:'', subject:'', message:'',receiver :'abc@gmail.com'})
        
 		}
 		
-	},[sendData.is_success])
+	},[sendData])
 
 
 
@@ -98,17 +98,19 @@ const ContactUs = () => {
 	
         </Col>
 		<Col xs={12} md={6}>
-      <iframe
+			<Loading loadData={loadData}>
+
+		
+		        { loadData.status == 'success' && loadData.result && <>      <iframe
         title="Google Map"
         loading="lazy"
 		height='450px'
 		width='500px'
         allowfullscreen
-        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d876.0348238616541!2d77.23850410644738!3d28.565579597315452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1697346309301!5m2!1sen!2sus"
+        src={loadData.result.google_map_url}
       ></iframe>
-
-		
-		        { loadData.is_success && loadData.result && <pre>{loadData.result.contact ? loadData.result.contact :"" }</pre>} 
+<pre>{loadData.result.contact ? loadData.result.contact :"" }</pre></>} 
+				</Loading>
 </Col>
         </Row>
         </Container>

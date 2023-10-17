@@ -5,14 +5,14 @@ import {Spinner, Container, Row, Col, Button, Card} from "react-bootstrap";
 import StoreCard from "../stores/StoreCard";
 
 const HomePage = () => {
-  const { search, axiosApi } = useContext(Context);
+  const { search, axiosApi,Loading } = useContext(Context);
  const navigate=useNavigate();
-  const [websites, setWebsites] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+  const [loadData, setLoadData] = useState({ 'status': null, 'result': null, 'message': null })
   
 
 	useEffect(() => {
     const config = { method: "get", headers: { "Content-Type": "application/json" } }
-    axiosApi(`store/websites/`, config, setWebsites);
+    axiosApi(`store/websites/`, config, setLoadData);
 }, []);
 
 
@@ -20,7 +20,6 @@ const HomePage = () => {
 
   return (
     <>
-    {websites.is_loading && <Spinner />}
     <div className="bg-primary text-white text-center py-5">
 
         <Container>
@@ -61,8 +60,12 @@ const HomePage = () => {
       </Container>
         <Container className="mt-3">
         <h2 className="text-center mb-4">Some Stores</h2>
-          <Row>{websites.is_success && websites.result && websites.result.filter((website) => website.store_name.toLowerCase().includes(search.toLowerCase())).map((website) => <Col  sm={12} md={6} lg={4} key={website.id} className="mb-2"><StoreCard store={website}/></Col>)}</Row>
-        </Container>
+        <Row>
+       
+        <Loading loadData={loadData}>
+        {loadData?.result?.filter((website) => website.store_name.toLowerCase().includes(search.toLowerCase())).map((website) => <Col  sm={12} md={6} lg={4} key={website.id} className="mb-2"><StoreCard store={website}/></Col>)}
+        </Loading>
+  </Row>      </Container>
     </>
   )
 }

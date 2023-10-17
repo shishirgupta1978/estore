@@ -27,14 +27,6 @@ const Stores = () => {
         <Route path="store/:store_slug/contact-us/" element={<ContactUs/>}/>
         <Route path="store/:store_slug/change-password/" element={<LoginReguired><ChangePassword/></LoginReguired>}/>
         <Route path="store/:store_slug/profile/" element={<LoginReguired><Profile/></LoginReguired>}/>
-
-
-
-         {/* 
-           
-        
-        
-  */}
     </Routes>
   )
 }

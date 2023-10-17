@@ -40,9 +40,9 @@ const Profile = () => {
 
 
   
-	const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-	const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-	const {BASE_URL,axiosApi} = useContext(Context);
+	const [loadData, setLoadData] =  useState({ 'status':null, 'result': null, 'message': null })
+	const [data, setData] =  useState({ 'status':null, 'result': null, 'message': null })
+	const {BASE_URL,axiosApi,Loading} = useContext(Context);
 
 	const [formData, setFormData] = useState({
 		first_name: '',
@@ -61,7 +61,7 @@ const Profile = () => {
 
 	const navigate = useNavigate();
 	useEffect(()=>{
-		if(data.is_success)
+		if(data.status == 'success')
 		{
 			toast.success("Save Successfull.")
 		}
@@ -73,7 +73,7 @@ const Profile = () => {
 
 
 	useEffect(()=>{
-		if(loadData.is_success)
+		if(loadData.status == 'success')
 {
 			
 			setFormData({...formData, first_name:loadData.result.length ==1 && loadData.result[0].first_name ? loadData.result[0].first_name:'' ,last_name:loadData.result.length ==1 && loadData.result[0].last_name ? loadData.result[0].last_name : ''});
@@ -126,9 +126,9 @@ const Profile = () => {
 
   return (
 	<div >
-	{loadData.is_loading && <Spinner />}
+<Loading loadData={loadData}>
 	
-	{loadData.is_success && <>
+	{loadData.status == 'success' && <>
 			<Form className="form mt-2" onSubmit={submitHandler}>
 			
 							<h2> {loadData.result.length == 0 ? "Add" : "Update"  }Profile</h2>
@@ -159,6 +159,7 @@ const Profile = () => {
 							<Button type="submit" variant="dark" className="mt-2">{loadData.result.length == 0 ? "Add" : "Update"  }</Button>
 				
 			</Form></>}
+			</Loading>
 		</div>
 
 

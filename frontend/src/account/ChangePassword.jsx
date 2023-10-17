@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import {Button,FloatingLabel,Form,Row,Col} from 'react-bootstrap';
 
 const ChangePassword = () => {
-	const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+	const [data, setData] =  useState({ 'status':null, 'result': null, 'message': null })
 	const {axiosApi } = useContext(Context);
 	
 
@@ -27,7 +27,7 @@ const ChangePassword = () => {
 
 
 	useEffect(() => {
-		if(data.is_success)
+		if(data.status == 'success')
 		{
 			toast.success("Password Changed Successfully.")
 			setFormData({
@@ -37,7 +37,7 @@ const ChangePassword = () => {
 			  });
 		}
 		
-	}, [data.is_success]);
+	}, [data]);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
@@ -54,7 +54,7 @@ const ChangePassword = () => {
 	return (
 			<Form className="form mt-2" onSubmit={submitHandler}>				
 				<h2>Change Password</h2>
-				{data.is_loading && <Spinner />}
+				
 				<FloatingLabel controlId="floatingInput1" label="Current Password" className="mb-3" ><Form.Control type="password" value={formData.old_password} placeholder="Old Password" onChange={handleChange} name="old_password"/></FloatingLabel>
 				<FloatingLabel controlId="floatingInput2" label="New Password" className="mb-3" ><Form.Control type="password" value={formData.password} placeholder="New Password" onChange={handleChange}  name="password" /></FloatingLabel>
 				<FloatingLabel controlId="floatingInput3" label="Confirm Password" className="mb-3" ><Form.Control type="password" value={formData.password_confirm} placeholder="Confirm Password" onChange={handleChange}  name="password_confirm"/></FloatingLabel>

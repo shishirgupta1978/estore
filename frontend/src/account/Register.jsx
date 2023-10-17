@@ -10,24 +10,26 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
-  const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+  const [data, setData] = useState({ 'status': null, 'result': null, 'message': null })
 	
 	
 
-	const [formData, setFormData] = useState({email: '', password: '', password_confirm: ''});
 
 
 	const navigate = useNavigate();
 
 
 	useEffect(() => {
-		if(data.is_success)
+		if(data.status == 'success')
 		{
 			toast.success("User Regeister Successfully.")
-			setFormData({email: '',	password: '',	password_confirm: '' });
+			setEmail('');
+			setPassword('');
+			setPasswordConfirm('');
+		  
 		}
 		
-	}, [data.is_success]);
+	}, [data]);
 
 	const handleRegister = (e) => {
 		e.preventDefault();

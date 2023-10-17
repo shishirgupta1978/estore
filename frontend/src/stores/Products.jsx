@@ -7,12 +7,12 @@ import  StoreCarousel  from "./StoreCarousel";
 
 
 const Products = () => {
-  const { setBanners,search,category, axiosApi } = useContext(Context);
+  const { setBanners,search,category, axiosApi,Loading } = useContext(Context);
   const [products,setProducts]=useState([])
   const navigate = useNavigate();
 
   const {store_slug} = useParams();
-  const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+  const [loadData, setLoadData] = useState({ 'status': null, 'result': null, 'message': null })
   
 
 
@@ -22,7 +22,7 @@ const Products = () => {
             },[])
 
   useEffect(() => {
-    if(loadData.is_success)
+    if(loadData.status == 'success')
     {
 
 
@@ -50,9 +50,11 @@ const Products = () => {
   return (
     <>
  <StoreCarousel/>
+ <Loading loadData={loadData}>
        <Container className="mt-2">
           <Row>{products.length>0 && products.filter((product)=>{return product.category==category.name || category.id==0 }).filter((product) => product.name.toLowerCase().includes(search.toLowerCase())).map((product) => <Col sm={12} md={6} lg={4} key={product.id} className="mb-2"><ProductCard product={product} /></Col>)}</Row>
         </Container>
+  </Loading>
      </>
     
   )

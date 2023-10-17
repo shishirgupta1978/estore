@@ -17,7 +17,7 @@ import { Badge } from 'react-bootstrap';
 const Header = () => {
   const location = useLocation();
   
-  const [store, setStore] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+  const [store, setStore] = useState({ 'status': null, 'result': null, 'message': null })
   const data = ""
   const {cart, user, setUser, setBanners,setProducts,axiosApi,getAccessToken, refresh, removeUser, BASE_URL } = useContext(Context);
   
@@ -50,7 +50,7 @@ const Header = () => {
 
 
   useEffect(() => {
-    if(store.is_success)
+    if(store.status == 'success')
     {
 
       const allProducts = [];

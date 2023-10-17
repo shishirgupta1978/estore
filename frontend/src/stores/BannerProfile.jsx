@@ -6,8 +6,8 @@ import {FloatingLabel,Form, Container, Row, Col, Button, Modal, Table } from 're
 
 const BannerProfile = () => {
   const {store_id} =useParams()
-	const [loadData, setLoadData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
-  const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+	const [loadData, setLoadData] = useState({ 'status': null, 'result': null, 'message': null })
+  const [data, setData] = useState({ 'status': null, 'result': null, 'message': null })
 	const { axiosApi } = useContext(Context);
   const [items, setItems] = useState([]);
 
@@ -19,7 +19,7 @@ const BannerProfile = () => {
 
 
 	useEffect(()=>{
-		if(loadData.is_success)
+		if(loadData.status == 'success')
 		{
 			setItems(loadData.result);
 		}

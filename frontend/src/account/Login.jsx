@@ -12,7 +12,7 @@ const Login=()=> {
   const [email, setEmail] = useState(localStorage.getItem("email") ? localStorage.getItem("email") :'');
   const [password, setPassword] = useState('');
   const [isChecked, setIsChecked] = useState(localStorage.getItem("email") ? true :false);
-	const [data, setData] = useState({ 'is_loading': false, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+	const [data, setData] = useState({ 'status':null, 'result': null, 'message': null })
 	const {user,setUser,setPage,axiosApi } = useContext(Context);
 
 
@@ -26,7 +26,7 @@ const Login=()=> {
 
 
 	useEffect(() => {
-		if(data.is_success )
+		if(data.status=='success' )
 		{
 			localStorage.setItem("Tokens",JSON.stringify(data.result));
      	    setUser(jwt_decode(data.result.access));

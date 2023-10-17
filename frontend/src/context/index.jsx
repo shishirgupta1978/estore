@@ -2,7 +2,7 @@ import React, { useState, createContext, useContext } from 'react';
 import jwt_decode from "jwt-decode";
 import axios from 'axios';
 import { toast } from "react-toastify";
-
+import { Spinner,Container,Col,Row,Alert } from 'react-bootstrap';
 const Context = createContext();
 
 
@@ -64,7 +64,7 @@ export const Provider = (props) => {
 
 
   const axiosApi = (url, config, setData) => {
-    setData({ 'is_loading': true, 'is_error': false, 'is_success': false, 'result': null, 'message': null })
+    setData({ 'status': 'loading', 'result': null, 'message': null })
     //deactivate auto refresh;
     refresh();
     const accessToken = getAccessToken()
@@ -73,8 +73,8 @@ export const Provider = (props) => {
     if (url && url.toLowerCase().startsWith("http")) { n_url = "" }
 
     axios(`${n_url}${url}`, config).then((response) => {
-      setData({ 'is_loading': false, 'is_error': false, 'is_success': true, 'result': response.data, 'message': null }); console.log(response);
-    }).catch((error) => {console.log(error);  setData({ 'is_loading': false, 'is_error': true, 'is_success': false, 'result': null, 'message': error });
+      setData({ 'status': 'success',  'result': response.data, 'message': null }); console.log(response);
+    }).catch((error) => {console.log(error);  setData({ 'status': 'error',  'result': null, 'message': msgHandle(error) });
 
         const message = msgHandle(error)
 
@@ -97,8 +97,43 @@ export const Provider = (props) => {
 
 
 
+
+  const Loading = (loadingProps) => {
+
+    if (loadingProps.loadData?.status == 'loading') {
+      return <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
+        <Spinner animation="border" role="status"/>
+        
+      </div>
+
+  
+    }
+    if(loadingProps.loadData?.status == 'error')
+    {
+      return <Container>
+      <Row className="justify-content-center">
+        <Col md={6}>
+          <Alert variant="danger" className="mt-5 text-center">
+            <h6>{loadingProps.loadData.message }</h6>
+          </Alert>
+        </Col>
+      </Row>
+    </Container>
+    }
+    
+    if(loadingProps.loadData?.status == 'success')
+    {
+      return loadingProps.children
+    }
+  
+   
+  }
+  
+
+
+
   return (
-    <Context.Provider value={{ user, setUser, search, setSearch, category, setCategory, products, setProducts, banners, setBanners, website, setWebsite, page, setPage, cart, setCart, axiosApi, BASE_URL, setuser, getUser, getRefreshToken, getAccessToken, removeUser, refresh }}>
+    <Context.Provider value={{Loading, user, setUser, search, setSearch, category, setCategory, products, setProducts, banners, setBanners, website, setWebsite, page, setPage, cart, setCart, axiosApi, BASE_URL, setuser, getUser, getRefreshToken, getAccessToken, removeUser, refresh }}>
       {props.children}
     </Context.Provider>
   );
