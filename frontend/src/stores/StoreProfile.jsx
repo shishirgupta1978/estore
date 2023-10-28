@@ -25,8 +25,6 @@ const StoreProfile = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleAddItem = (x) => {
-    console.log("Add");
-    console.log(x)
     const config = { method: "post", headers: { "Content-Type": "application/json", "Authorization": true },data:x }
 		axiosApi("store/stores/", config, setData);
   
@@ -96,7 +94,7 @@ const StoreProfile = () => {
           </Table></Loading>
         </Col>
         <Col md={6}>
-          <Button onClick={() => setShowAddModal(true)}>Add Store</Button>
+          <Button onClick={() => {setShowAddModal(true);}}>Add Store</Button>
         </Col>
       </Row>
 
@@ -128,7 +126,7 @@ const StoreProfile = () => {
       {/* Edit Item Modal */}
       <Modal show={showEditModal} onHide={() => setShowEditModal(false)} scrollable={true}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Item</Modal.Title>
+          <Modal.Title>Edit Store</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <Form >
