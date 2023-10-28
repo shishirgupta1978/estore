@@ -82,7 +82,7 @@ const ContactUs = () => {
 
 
 
-    <Container className="pt-2">
+    <Container className="pt-2" fluid>
         <Row>
 		<Col xs={12} md={6}>
 	
@@ -105,7 +105,7 @@ const ContactUs = () => {
         title="Google Map"
         loading="lazy"
 		height='450px'
-		width='500px'
+		width='460px'
         allowfullscreen
         src={loadData.result.google_map_url}
       ></iframe>

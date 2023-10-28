@@ -132,20 +132,21 @@ const Header = () => {
 
 
   return (
-    <Navbar sticky="top" expand="lg" bg='dark' variant='dark'>
+    <Navbar sticky="top" bg='dark' variant='dark'  expand="lg">
       <Container fluid>
  {/*     <Navbar.Brand as={Link} to={store_slug ? `/website/store/${store_slug}/` : '/'}>{store_slug ? (<>{store.is_success && (<>{store.result.logo_img_url && (<img height='22px' src={store.result.logo_img_url} className='logoimg' alt='Logo' />         )}       {store.result.store_name} </>       )}  </> ) : 'SG'} </Navbar.Brand>*/}
  <Navbar.Brand as={Link} to='/'>SG</Navbar.Brand>
-      <Nav className="mx-auto"><SearchBar/></Nav>
-
+<SearchBar/>
+      
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
-        <Navbar.Collapse id="responsive-navbar-nav">
+        <Navbar.Collapse id="responsive-navbar-nav" >
+        
           <Nav className="ms-auto">
-          <Nav.Link as={Link} to={store_slug ? `/website/store/${store_slug}/` :"/"}>{store_slug && store.result?.store_name ? store.result.store_name  :"Home"}</Nav.Link>
-          {store_slug ? "":<Nav.Link as={Link} to="/website/create/">Create Store</Nav.Link>}
-           {store_slug && <><Nav.Link as={Link} to={store_slug ? `./website/store/${store_slug}/about-us/`: "/about-us/"}>About Us</Nav.Link>
-            <Nav.Link as={Link} to={store_slug ? `/website/store/${store_slug}/contact-us/`: "/contact-us/" }>Contact Us</Nav.Link></>}
+          <Nav.Link as={Link} to={store_slug ? `/website/store/${store_slug}/` :"/"}>{store_slug && store.result?.store_name ? store.result.store_name.replace(" ",'\u00A0')  :"Home"}</Nav.Link>
+          {store_slug ? "":<Nav.Link as={Link} to="/website/create/">Create&nbsp;Store</Nav.Link>}
+           {store_slug && <><Nav.Link as={Link} to={store_slug ? `./website/store/${store_slug}/about-us/`: "/about-us/"}>About&nbsp;Us</Nav.Link>
+            <Nav.Link as={Link} to={store_slug ? `/website/store/${store_slug}/contact-us/`: "/contact-us/" }>Contact&nbsp;Us</Nav.Link></>}
             {store_slug && <Nav.Link as={Link} to={ `/website/store/${store_slug}/cart/` }>Cart<sup style={{ color: 'yellow' }}>{Object.keys(cart).length}</sup></Nav.Link>}
 
             {user ? <> <NavDropdown title="Profile" id="collasible-nav-dropdown" align="end">
@@ -172,6 +173,8 @@ const Header = () => {
 
 
         </Navbar.Collapse>
+
+      
       </Container>
     </Navbar>
   );

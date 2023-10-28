@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { InputGroup, Dropdown, DropdownButton, Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import {ButtonGroup, InputGroup, Dropdown, DropdownButton, Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Context from '../../context';
 
@@ -21,6 +21,7 @@ export const SearchBar = () => {
       setStore_slug(match[1].toLowerCase());
 
       const config = { method: "get", headers: { "Content-Type": "application/json" } }
+      
       axiosApi(`store/websites/${match[1].toLowerCase()}/categories/`, config, setCategories);
 
     } else {
@@ -42,15 +43,17 @@ export const SearchBar = () => {
 
 
   return (
-    <InputGroup style={{ maxWidth: '260px' }}>
+<div className="d-sm-flex w-75 me-lg-5" >
+    <InputGroup className='ms-auto'  style={{maxWidth:'400px'}}>
       {store_slug &&
-        <DropdownButton variant="primary" title={category.name} id="input-group-dropdown-1" >
-          <Dropdown.Item onClick={(e) => { setCategory({ id: 0, name: "All" }) }}>All</Dropdown.Item>
-          {categories.is_success && categories.result.length > 0 && categories.result.map((key) => <Dropdown.Item key={key.id} onClick={(e) => { setCategory(key) }} >{key.name}</Dropdown.Item>)}
+      
+        <DropdownButton variant="primary" title={category.name} id="input-group-dropdown-1">
+         <Dropdown.Item  onClick={(e) => { setCategory({ id: 0, name: "All" }) }}>All</Dropdown.Item>
+          {categories.status=="success" && categories.result.length > 0 && categories.result.map((key) => <Dropdown.Item key={key.id} onClick={(e) => { setCategory(key) }} >{key.name}</Dropdown.Item>)}
         </DropdownButton>
       }
       <Form.Control onChange={(e) => setSearch(e.target.value)} type="search" value={search} placeholder="Search" />
-    </InputGroup>
+    </InputGroup></div>
   )
 }
 
