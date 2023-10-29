@@ -144,7 +144,7 @@ const Header = () => {
               <SearchBar />
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                 <Nav.Item>
-                <Nav.Link as={NavLink} to="/account/">
+                <Nav.Link as={NavLink} to="/account-view/">
                   <BsHouseDoor size={24} className={`d-${expand}-block mx-auto mb-1`} />
                   &nbsp;Store&nbsp;Creater
                 </Nav.Link>
@@ -158,7 +158,7 @@ const Header = () => {
 
      
               <Nav.Item>
-                <Nav.Link as={NavLink} to={ `/store/${store_slug}/cart/` }>
+                <Nav.Link as={NavLink} to={ `/store-view/${store_slug}/cart/` }>
                   <BsSpeedometer2 size={24}  className={`d-${expand}-block mx-auto mb-1`} />
                   &nbsp;Cart<sup style={{ color: 'yellow' }}>{Object.keys(cart).length}</sup></Nav.Link>
               </Nav.Item>
@@ -170,12 +170,12 @@ const Header = () => {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link as={NavLink} to={`/store/${store_slug}/about-us/`}>
+                <Nav.Link as={NavLink} to={`/store-view/${store_slug}/about-us/`}>
                   <BsSpeedometer2 size={24}  className={`d-${expand}-block mx-auto mb-1`} />
                   &nbsp;About&nbsp;Us</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link as={NavLink} to={`/store/${store_slug}/contact-us/`}>
+                <Nav.Link as={NavLink} to={`/store-view/${store_slug}/contact-us/`}>
                   <BsSpeedometer2 size={24}  className={`d-${expand}-block mx-auto mb-1`} />
                   &nbsp;Contact&nbsp;Us</Nav.Link>
               </Nav.Item>
@@ -188,8 +188,8 @@ const Header = () => {
 
 
 
-<NavDropdown.Item as={Link} to={`/store/${store_slug}/profile/`}>Manage Profile</NavDropdown.Item>
-<NavDropdown.Item as={Link} to={`/store/${store_slug}/change-password/`}>Change Password</NavDropdown.Item>
+<NavDropdown.Item as={Link} to={`/store-view/${store_slug}/profile/`}>Manage Profile</NavDropdown.Item>
+<NavDropdown.Item as={Link} to={`/store-view/${store_slug}/change-password/`}>Change Password</NavDropdown.Item>
 <NavDropdown.Divider />
 <NavDropdown.Item onClick={logoutHandler}>
   Logout
@@ -198,7 +198,7 @@ const Header = () => {
 
 
 
-</> :<><Nav.Link as={NavLink} to={`/store/${store_slug}/login/`}><BsFillPersonFill size={24}  className={`d-${expand}-block mx-auto mb-1`} />
+</> :<><Nav.Link as={NavLink} to={`/store-view/${store_slug}/login/`}><BsFillPersonFill size={24}  className={`d-${expand}-block mx-auto mb-1`} />
 Login</Nav.Link></>}
   
                 

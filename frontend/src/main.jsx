@@ -19,9 +19,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter> 
     <Provider>
       <Routes>
-        <Route path="/"  element={<Navigate to="/account/"/>}/>
-        <Route path="/account/*"  element={<Account/>}/>
-        <Route path="/store/*"  element={<Stores/>}/>
+        <Route path="/"  element={<Navigate to="/account-view/"/>}/>
+        <Route path="/account-view/*"  element={<Account/>}/>
+        <Route path="/store-view/*"  element={<Stores/>}/>
        </Routes>
       <ToastContainer theme="dark" />
     </Provider>

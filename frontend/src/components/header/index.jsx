@@ -28,7 +28,7 @@ function Header() {
       {[ 'md'].map((expand) => (
         <Navbar key={expand} expand={expand} sticky="top" bg='dark' variant='dark'>
           <Container fluid>
-            <Navbar.Brand href="/"><BsHouseDoor size={24} className="me-2" />Store Creater</Navbar.Brand>
+            <Navbar.Brand as={NavLink} to="/account-view/"><BsHouseDoor size={24} className="me-2" />Store Creater</Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
@@ -43,13 +43,13 @@ function Header() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                 <Nav.Item>
-                <Nav.Link as={NavLink} to="/account/">
+                <Nav.Link as={NavLink} to="/account-view/">
                   <BsHouseDoor size={24} className={`d-${expand}-block mx-auto mb-1`} />
                   &nbsp;Home
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link as={NavLink} to="/account/store-manage/">
+                <Nav.Link as={NavLink} to="/account-view/store-manage/">
                   <BsSpeedometer2 size={24}  className={`d-${expand}-block mx-auto mb-1`} />
                   &nbsp;Manage Store</Nav.Link>
               </Nav.Item>
@@ -74,8 +74,8 @@ function Header() {
 
 
 
-<NavDropdown.Item as={Link} to="/account/profile/">Manage Profile</NavDropdown.Item>
-<NavDropdown.Item as={Link} to="/account/change-password/">Change Password</NavDropdown.Item>
+<NavDropdown.Item as={Link} to="/account-view/profile/">Manage Profile</NavDropdown.Item>
+<NavDropdown.Item as={Link} to="/account-view/change-password/">Change Password</NavDropdown.Item>
 <NavDropdown.Divider />
 <NavDropdown.Item onClick={logoutHandler}>
   Logout
@@ -84,7 +84,7 @@ function Header() {
 
 
 
-</> :<><Nav.Link as={NavLink} to='/account/login/'><BsFillPersonFill size={24}  className={`d-${expand}-block mx-auto mb-1`} />
+</> :<><Nav.Link as={NavLink} to='/account-view/login/'><BsFillPersonFill size={24}  className={`d-${expand}-block mx-auto mb-1`} />
 Login</Nav.Link></>}
   
                 

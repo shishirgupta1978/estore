@@ -14,7 +14,7 @@ const ContactUs = () => {
     
 
     useEffect(() => {
-      const regex = /\/store\/([^/]+)/i; 
+      const regex = /\/store-view\/([^/]+)/i; 
       const match =location.pathname.match(regex);
       if (match) {
         setStore_slug(match[1].toLowerCase());

@@ -19,7 +19,7 @@ const Account = () => {
     <Routes>
     <Route path="/"  element={<Layout/>}>
     <Route index element={<HomePage/>}/>
-    <Route path="login/" element={<LoginReguired><Navigate to="/account"/></LoginReguired>}/>
+    <Route path="login/" element={<LoginReguired><Navigate to="/account-view"/></LoginReguired>}/>
     <Route path="change-password/" element={<LoginReguired><ChangePassword/></LoginReguired>}/>
     <Route path="profile/" element={<LoginReguired><Profile/></LoginReguired>}/>
     <Route path="store-manage/" element={<LoginReguired><StoreProfile/></LoginReguired>}/> 

@@ -61,7 +61,7 @@ const CategoryProfile = () => {
               {loadData.result && loadData.result.length > 0 && loadData.result.map((item) => (
                 <tr key={item.id}>
                   <td>{item.name}</td>
-                  <td><NavLink to={`/account/products/manage/${store_id}/${item.id}/`}>Manage Products</NavLink></td>
+                  <td><NavLink to={`/account-view/products/manage/${store_id}/${item.id}/`}>Manage Products</NavLink></td>
                   <td>
                     <Button
                       variant="warning"
