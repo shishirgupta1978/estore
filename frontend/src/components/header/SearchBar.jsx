@@ -43,8 +43,8 @@ export const SearchBar = () => {
 
 
   return (
-<div className="d-sm-flex w-75 me-lg-5" >
-    <InputGroup className='ms-auto'  style={{maxWidth:'400px'}}>
+<div className="d-sm-flex w-75 me-md-3" >
+    <InputGroup className='ms-auto'  style={{maxWidth:'350px'}}>
       {store_slug &&
       
         <DropdownButton variant="primary" title={category.name} id="input-group-dropdown-1">

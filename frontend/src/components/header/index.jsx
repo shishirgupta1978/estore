@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { InputGroup, Dropdown, DropdownButton, Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import {Offcanvas, InputGroup, Dropdown, DropdownButton, Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 import { SearchBar } from './SearchBar';
 import { BiSearch } from 'react-icons/bi';
@@ -19,7 +19,7 @@ const Header = () => {
   
   const [store, setStore] = useState({ 'status': null, 'result': null, 'message': null })
   const data = ""
-  const {cart, user, setUser, setBanners,setProducts,axiosApi,getAccessToken, refresh, removeUser, BASE_URL } = useContext(Context);
+  const {cart, user, setUser, setBanners,setProducts,axiosApi,getAccessToken, refresh, removeUser, BASE_URL,Loading } = useContext(Context);
   
   const [timeLeft, setTimeLeft] = useState(null);
   const [timer, setTimer] = useState(null);
@@ -132,19 +132,30 @@ const Header = () => {
 
 
   return (
-    <Navbar sticky="top" bg='dark' variant='dark'  expand="lg">
-      <Container fluid>
- {/*     <Navbar.Brand as={Link} to={store_slug ? `/website/store/${store_slug}/` : '/'}>{store_slug ? (<>{store.is_success && (<>{store.result.logo_img_url && (<img height='22px' src={store.result.logo_img_url} className='logoimg' alt='Logo' />         )}       {store.result.store_name} </>       )}  </> ) : 'SG'} </Navbar.Brand>*/}
- <Navbar.Brand as={Link} to='/'>SG</Navbar.Brand>
-<SearchBar/>
-      
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
-        <Navbar.Collapse id="responsive-navbar-nav" >
-        
-          <Nav className="ms-auto">
-          <Nav.Link as={Link} to={store_slug ? `/website/store/${store_slug}/` :"/"}>{store_slug && store.result?.store_name ? store.result.store_name.replace(" ",'\u00A0')  :"Home"}</Nav.Link>
-          {store_slug ? "":<Nav.Link as={Link} to="/website/create/">Create&nbsp;Store</Nav.Link>}
+  <>
+      <>
+      
+      {['md'].map((expand) => (
+        <Navbar key={expand} expand={expand} sticky="top" bg='dark' variant='dark'>
+          <Container fluid>
+          <Navbar.Brand as={Link} to={store_slug ? `/website/store/${store_slug}/` :"/"}>{store_slug ? store?.result?.store_name.replace(" ",'\u00A0')  :"SG"}</Navbar.Brand>
+            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+            <Navbar.Offcanvas
+              id={`offcanvasNavbar-expand-${expand}`}
+              aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+              placement="end"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+                  SG
+                </Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+              <SearchBar/>
+                <Nav className="justify-content-end flex-grow-1 pe-3"   bg='dark' variant='dark'>
+                
+          {store_slug ? <Nav.Link as={Link} to="/">Store&nbsp;Creater</Nav.Link>:<Nav.Link as={Link} to="/website/create/">Create&nbsp;Store</Nav.Link>}
            {store_slug && <><Nav.Link as={Link} to={store_slug ? `./website/store/${store_slug}/about-us/`: "/about-us/"}>About&nbsp;Us</Nav.Link>
             <Nav.Link as={Link} to={store_slug ? `/website/store/${store_slug}/contact-us/`: "/contact-us/" }>Contact&nbsp;Us</Nav.Link></>}
             {store_slug && <Nav.Link as={Link} to={ `/website/store/${store_slug}/cart/` }>Cart<sup style={{ color: 'yellow' }}>{Object.keys(cart).length}</sup></Nav.Link>}
@@ -168,15 +179,16 @@ const Header = () => {
 
             </> :
               <Nav.Link as={Link} to={store_slug ? `/website/store/${store_slug}/login/` :'/login/'}>Login</Nav.Link>}
-          </Nav>
-
-
-
-        </Navbar.Collapse>
-
-      
-      </Container>
-    </Navbar>
+                </Nav>
+                
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          </Container>
+        </Navbar>
+      ))}
+    </>
+    
+  </>
   );
 };
 
