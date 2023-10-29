@@ -67,7 +67,7 @@ const StoreProfile = () => {
                   <td>{item?.website_name}</td>
                   <td>{item.store_name}</td>
                   <td>
-                  <NavLink to={`/website/categories/create/${item.id}/`}>Manage Categories</NavLink></td><td> <NavLink to={`/website/banners/create/${item.id}/`}>Manage Banners</NavLink></td><td>
+                  <NavLink to={`/account/categories/manage/${item.id}/`}>Manage Categories</NavLink></td><td> <NavLink to={`/account/banners/manage/${item.id}/`}>Manage Banners</NavLink></td><td>
                     <Button
                       variant="warning"
                       onClick={() => {

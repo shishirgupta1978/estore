@@ -7,9 +7,10 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { useLocation, useParams } from 'react-router-dom'
 import { Provider } from './context';
-import {Header,Footer} from './components'
 import Pages from './pages'
 import { ToastContainer } from "react-toastify";
+import Account from './account';
+import Stores from './stores';
 
 
 
@@ -17,15 +18,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   //<React.StrictMode>
     <BrowserRouter> 
     <Provider>
-      <Header/>
-      <main>
       <Routes>
-      <Route path="/*"  element={<Pages/>}/>
+        <Route path="/"  element={<Navigate to="/account/"/>}/>
+        <Route path="/account/*"  element={<Account/>}/>
+        <Route path="/store/*"  element={<Stores/>}/>
        </Routes>
-      
- 
-      </main>
-      <Footer/>
       <ToastContainer theme="dark" />
     </Provider>
    

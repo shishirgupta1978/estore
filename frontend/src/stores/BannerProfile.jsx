@@ -60,6 +60,7 @@ const BannerProfile = () => {
             <thead>
               <tr>
                 <th>Banner Label</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>

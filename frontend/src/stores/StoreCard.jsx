@@ -21,7 +21,7 @@ const StoreCard = ({ store }) => {
         <Card.Body>
           <Card.Title>{store.short_description}</Card.Title>
           <Card.Text>{store.store_name}</Card.Text>
-          <Card.Text><Button as={NavLink} to={`/website/store/${store.website_name}/`} variant="dark" className='w-100' >Go to Website</Button></Card.Text>
+          <Card.Text><Button as={NavLink} to={`/store/${store.website_name}/`} variant="dark" className='w-100' >Go to Website</Button></Card.Text>
         </Card.Body>
       </Card>
 

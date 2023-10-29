@@ -25,7 +25,7 @@ const HomePage = () => {
         <Container>
           <h1>Welcome to Our Store Creator</h1>
           <p>Create your dream store with ease</p>
-          <Button variant="dark" onClick={()=>{navigate('/website/create/')}}>Get Started</Button>
+          <Button variant="dark" onClick={()=>{navigate('/account/store-manage/')}}>Get Started</Button>
         </Container>
       </div>
 
