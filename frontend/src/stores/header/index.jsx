@@ -12,7 +12,7 @@ import { BiRefresh } from "react-icons/bi"
 import { MdArrowDropDown } from "react-icons/md"
 import { NoProfileImg, LogoImg } from '../../assets/images';
 import { Badge } from 'react-bootstrap';
-import { BsHouseDoor, BsSpeedometer2, BsTable, BsGrid, BsPerson } from 'react-icons/bs';
+import { BsHouseDoor, BsSpeedometer2, BsTable, BsGrid,   BsFillPersonFill } from 'react-icons/bs';
 
 
 const Header = () => {
